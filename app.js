@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const membreRoutes = require('./routes/membreRoutes');
 const userRoutes = require('./routes/userRoutes');
+const protectedRoutes = require('./routes/protectedRoutes');
 require('dotenv').config();
 const cors = require('cors');
 
@@ -10,13 +11,15 @@ const app = express();
 // Connect to database
 connectDB();
 
-app.use(cors())
+
 // Middleware
 app.use(express.json());
+app.use(cors())
 
 // Routes
 app.use('/api/membres', membreRoutes);
 app.use('/api/utilisateurs', userRoutes);
+app.use('/api/protected', protectedRoutes);
 
 // Port d'ecoute
 const PORT = process.env.PORT || 5000;
