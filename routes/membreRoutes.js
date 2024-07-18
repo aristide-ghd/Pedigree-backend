@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { ajouterMembre, getTousMembres, modifierMembreParId } = require('../controllers/membreController');
+const { ajouterMembre, getTousMembres, modifierMembreParId, getMembreParSexe } = require('../controllers/membreController');
 
 //Route pour ajouter un nouveau membre
 router.post('/ajouter', ajouterMembre);
@@ -10,5 +10,8 @@ router.get('/tous', getTousMembres)
 
 //Route pour modifier un membre par l'ID
 router.put('/modifier/:id', modifierMembreParId)
+
+//Route pour recupérer les membres par sexe
+router.get('/recuperer/:sexe', getMembreParSexe)
 
 module.exports = router;
