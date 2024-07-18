@@ -10,7 +10,7 @@ const ajouterMembre = async (req, res) => {
     }
     res.status(201).json(retour);
   } catch (err) {
-    res.status(400).json({ message: "Erreur d'enregistrement" });
+    res.status(400).json({ message: err.message });
   }
 };
 
