@@ -17,7 +17,7 @@ const enregistrerUtilisateur = async (req, res) => {
     }
     res.status(201).json(retour);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: "Erreur d'enregistrement" });
   }
 };
 
@@ -72,7 +72,7 @@ const connecterUtilisateur = async (req, res) => {
     res.status(200).json({ message: "Connexion réussie", date:return_token});
   }
   catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: "Veuillez-vous inscrire" });
   }
 };
 
