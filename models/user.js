@@ -1,5 +1,7 @@
+//import de mongoose
 const mongoose = require('mongoose');
 
+//Definition du shema mongoose pour les utilisateurs
 const userSchema = new mongoose.Schema({
   nom: { type: String, required: true },
   prenom: { type: String, required: true },
@@ -22,4 +24,6 @@ const userSchema = new mongoose.Schema({
 //   return bcrypt.compare(candidatePassword, this.mot_de_passe);
 // };
 
+
+//Exports du modèle pour l'utiliser ailleurs dans l'application
 module.exports = mongoose.model('User', userSchema);

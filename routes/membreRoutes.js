@@ -6,13 +6,13 @@ const { ajouterMembre, getTousMembres, modifierMembreParId, getMembreParSexe } =
 //Route pour ajouter un nouveau membre
 router.post('/ajouter', authMiddleware, ajouterMembre);
 
-//Route pour afficher tous les membres
-router.get('/tous', getTousMembres)
+//Route pour afficher tous les membres pour un utilisateur
+router.get('/tous', authMiddleware, getTousMembres);
 
-//Route pour modifier un membre par l'ID
-router.put('/modifier/:id', modifierMembreParId)
+//Route pour modifier un membre d'un utilisateur par l'ID
+router.put('/modifier/:id', modifierMembreParId);
 
-//Route pour recupérer les membres par sexe
-router.get('/recuperer/:sexe', getMembreParSexe)
+//Route pour recupérer les membres par sexe pour un utilisateur
+router.get('/recuperer/:sexe', getMembreParSexe);
 
 module.exports = router;

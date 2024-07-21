@@ -93,6 +93,6 @@ const generateJwt= (identity) =>{
   catch (error) {
     console.log(error);
   }
-}
+};
 
 module.exports = { enregistrerUtilisateur, getTousUtilisateurs, modifierUtilisateurParEmail,connecterUtilisateur };

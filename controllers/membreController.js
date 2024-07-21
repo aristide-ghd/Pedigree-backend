@@ -23,10 +23,11 @@ const ajouterMembre = async (req, res) => {
   }
 };
 
-// Fonction pour afficher tous les membres
+// Fonction pour afficher tous les membres pour un utilisateur
 const getTousMembres = async (req, res) => {
+  const idUtilisateur = req.user._id 
   try {
-    const membres = await Membre.find();
+    const membres = await Membre.find({idUtilisateur});
     res.status(201).json(membres);
   } catch (err) {
     res.status(400).json({ message: err.message });
