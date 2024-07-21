@@ -11,7 +11,7 @@ const membreSchema = new mongoose.Schema({
   conjoint: { type: String, required: false },
   id_pere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   id_mere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
-  id_lien: { type: mongoose.Schema.Types.ObjectId, ref: 'Lien' },
+  type_de_lien: { type: String, enum: ['Père', 'Mère', 'Beau-père', 'Belle-mère', 'Frère', 'Soeur', 'Beau-Frère', 'Belle-Soeur', 'Fils', 'Fille', 'Oncle', 'Tante', 'Cousin', 'Cousine', 'Grand-Père', 'Grand-Mère', 'Epouse', 'Epoux'], required: true },
   profession: { type: String, required: false },
   religion: { type: String, enum: ['Christianisme(Evangelique, Catholique)', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme'] },
   groupe_sanguin: { type: String },

@@ -1,10 +1,19 @@
 const Membre = require('../models/membre');
+const Lien = require('../models/lien');
 
 // Fonction pour ajouter un membre
 const ajouterMembre = async (req, res) => {
   try {
     const nouveauMembre = new Membre(req.body);
-    await nouveauMembre.save();
+    const idUtilisateur = req.user._id; // Assume que le middleware d'authentification ajoute l'utilisateur à req.user
+    const membreEnregistre = await nouveauMembre.save();
+    // Enregistrement dans la table Lien
+    const nouveauLien = new Lien({
+      idMembre: membreEnregistre._id,
+      idUtilisateur,
+      typeDeLien,
+    });
+    await nouveauLien.save();
     const retour = {
       "Message": "Membre enregistré avec sucès"
     }

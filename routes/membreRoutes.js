@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { authMiddleware } = require('../middleware/authMiddleware');
 const { ajouterMembre, getTousMembres, modifierMembreParId, getMembreParSexe } = require('../controllers/membreController');
 
 //Route pour ajouter un nouveau membre
-router.post('/ajouter', ajouterMembre);
+router.post('/ajouter', authMiddleware, ajouterMembre);
 
 //Route pour afficher tous les membres
 router.get('/tous', getTousMembres)

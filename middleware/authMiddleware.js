@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
     const token = req.header('Authorization');
+    //split string token :: --- ['bearre']
     if(!token){
         return res.status(400).json({ message: "Accès refusé. Aucun jeton n'a été fourni" });
     }
