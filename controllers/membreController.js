@@ -8,8 +8,8 @@ const ajouterMembre = async (req, res) => {
 
     const idUtilisateur = req.user._id; // Assume que le middleware d'authentification ajoute l'utilisateur à req.user
     const membreEnregistre = await nouveauMembre.save();
-    const typeDeLien = (req.body)
-    await nouveauLien.save();
+    // const typeDeLien = (req.body)
+    // await nouveauLien.save();
     const retour = {
       "Message": "Membre enregistré avec sucès"
     }
