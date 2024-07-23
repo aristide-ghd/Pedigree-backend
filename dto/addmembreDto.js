@@ -1,4 +1,5 @@
-const  { object, string, number, date, InferType } = require('yup');
+const { object, string, number, date, InferType } = require('yup');
+const {TYPES_LIENS} = require ('../models/lien');
 
 exports.addMembreDto =  object({
   body: object({
@@ -8,15 +9,16 @@ exports.addMembreDto =  object({
     date_de_naissance: date().default(() => new Date()),
     statut_matrimonial: string().oneOf(['Marie(e)', 'Celibataire', 'Divorce(e)', 'Veuf(ve)']),
     conjoint: string(),
-    id_pere: string().default(null),
-    id_mere: string().default(null),
-    type_de_lien: string().oneOf(['Père', 'Mère', 'Beau-père', 'Belle-mère', 'Frère', 'Soeur', 'Beau-Frère', 'Belle-Soeur', 'Fils', 'Fille', 'Oncle', 'Tante', 'Cousin', 'Cousine', 'Grand-Père', 'Grand-Mère', 'Epouse', 'Epoux']).required('Le type de lien est requis'),
+    //La fonction test vérifie que la valeur est soit null, soit un objectid valide en utilisant Types.ObjectId.isValid(value)
+    id_pere: string().nullable(),
+    id_mere: string().nullable(),
+    // .test('is-object-id', 'identifiant de la mère invalide', value => value === null || Types.ObjectId.isValid(value)),
+    type_de_lien: string().oneOf(TYPES_LIENS).required('Le type de lien est requis'),
     profession: string(),
     religion: string().oneOf(['Christianisme(Evangelique, Catholique)', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme']),
     groupe_sanguin: string(),
     signe_du_fa: string(),
     electrophorese: string(),
-    id_user: string(),
-    id_arbre: string(),
+    id_arbre: string()
   }),
 });

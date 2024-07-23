@@ -1,5 +1,6 @@
 //import de Mongoose
 const mongoose = require('mongoose');
+const { TYPES_LIENS } = require('./lien');
 
 // Definition du schema mongoose pour les membres de la famille
 const membreSchema = new mongoose.Schema({
@@ -11,7 +12,7 @@ const membreSchema = new mongoose.Schema({
   conjoint: { type: String, required: false },
   id_pere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   id_mere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
-  type_de_lien: { type: String, enum: ['Père', 'Mère', 'Beau-père', 'Belle-mère', 'Frère', 'Soeur', 'Beau-Frère', 'Belle-Soeur', 'Fils', 'Fille', 'Oncle', 'Tante', 'Cousin', 'Cousine', 'Grand-Père', 'Grand-Mère', 'Epouse', 'Epoux'], required: true },
+  type_de_lien: { type: String, enum: TYPES_LIENS, required: true },
   profession: { type: String, required: false },
   religion: { type: String, enum: ['Christianisme(Evangelique, Catholique)', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme'], required: false },
   groupe_sanguin: { type: String, required: false },

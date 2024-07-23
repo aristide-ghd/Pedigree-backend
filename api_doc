@@ -1,0 +1,105 @@
+Enregistrer un Utilisateur
+
+    Méthode : POST
+    URL : http://localhost:5000/api/utilisateurs/enregistrer
+    Headers :
+        Content-Type: application/json
+    Body (raw, JSON) :
+
+    json
+
+{
+  "nom": "",
+  "prenom": "",
+  "sexe": "",
+  "email": "john@example.com",
+  "mot_de_passe": "12345678"
+}
+
+Réponse attendue :
+
+json
+
+    {
+      "Message": "Utilisateur enregistré avec succès"
+    }
+
+Afficher Tous les Utilisateurs
+
+    Méthode : GET
+    URL : http://localhost:5000/api/utilisateurs/tous
+    Réponse attendue :
+
+    json
+
+    [
+      {
+        "_id": "60c72b2f9b1e8a5f6d6a15f9",
+        "nom": "John",
+        "email": "john@example.com",
+        "mot_de_passe": "$2a$10$...",
+        "__v": 0
+      }
+      // Autres utilisateurs
+    ]
+
+Modifier un Utilisateur par Email
+
+    Méthode : PUT
+    URL : http://localhost:5000/api/utilisateurs/modifier/:email
+
+        Remplace :email par l'email de l'utilisateur à modifier.
+    Headers :
+        Content-Type: application/json
+    Body (raw, JSON) :
+
+    json
+
+{
+  "nom": "John Doe"
+}
+
+Réponse attendue :
+
+json
+
+    {
+      "message": "Utilisateur modifié avec succès"
+    }
+
+Connecter un Utilisateur
+
+    Méthode : POST
+    URL : http://localhost:5000/api/utilisateurs/connecter
+    Headers :
+        Content-Type: application/json
+    Body (raw, JSON) :
+
+    json
+
+{
+  "email": "john@example.com",
+  "mot_de_passe": "12345678"
+}
+
+Réponse attendue :
+
+json
+
+    {
+      "message": "Connexion réussie",
+      "date": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+        "expiresIn": "12h",
+        "expirationTime": "2023-07-23T12:00:00.000Z"
+      }
+    }
+
+Utilisation dans Postman
+
+    Lancer Postman et sélectionner la méthode HTTP appropriée (POST, GET, PUT).
+    Entrer l'URL de l'API.
+    Ajouter les en-têtes nécessaires :
+        Pour toutes les requêtes POST/PUT, ajoute l'en-tête Content-Type: application/json.
+    Ajouter le corps de la requête pour les requêtes POST et PUT en choisissant "raw" et en sélectionnant "JSON".
+    Envoyer la requête et vérifier la réponse dans la section "Body".

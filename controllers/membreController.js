@@ -1,15 +1,19 @@
 const Membre = require('../models/membre');
-const Lien = require('../models/lien');
+// const {ajouterLien} = require('../controllers/lienController');
 
 // Fonction pour ajouter un membre
 const ajouterMembre = async (req, res) => {
   try {
-    const nouveauMembre = new Membre(req.body);
+    //Recupere l'id de l'utilisateur qui est connecté
+    const idUtilisateur = req.user.identity._id;
+    let body = req.body;
+    body.id_user = idUtilisateur;
+    const nouveauMembre = new Membre(body);
+    await nouveauMembre.save();
 
-    const idUtilisateur = req.user._id; // Assume que le middleware d'authentification ajoute l'utilisateur à req.user
-    const membreEnregistre = await nouveauMembre.save();
-    // const typeDeLien = (req.body)
-    // await nouveauLien.save();
+    //Appel le controlleur de lien pour enregistrer le lien
+    // await ajouterLien(membreEnregistrer._id, type_de_lien, idUtilisateur);
+
     const retour = {
       "Message": "Membre enregistré avec sucès"
     }
@@ -21,9 +25,9 @@ const ajouterMembre = async (req, res) => {
 
 // Fonction pour afficher tous les membres pour un utilisateur
 const getTousMembres = async (req, res) => {
-  const idUtilisateur = req.user._id 
+  const idUtilisateur = req.user.identity._id
   try {
-    const membres = await Membre.find({idUtilisateur});
+    const membres = await Membre.find({ id_user: idUtilisateur});
     res.status(201).json(membres);
   } catch (err) {
     res.status(400).json({ message: err.message });
