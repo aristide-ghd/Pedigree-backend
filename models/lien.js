@@ -11,7 +11,6 @@ const lienSchema = new mongoose.Schema({
 });
 
 // Exports du modèle pour l'utiliser ailleurs dans l'application
-module.exports = mongoose.model('Lien', lienSchema);
-
+const Lien  = mongoose.model('Lien', lienSchema)
 //Exports des types de liens pour utiliser ailleurs dans l'application
-module.exports = {TYPES_LIENS};
+module.exports = {TYPES_LIENS,Lien};

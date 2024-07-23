@@ -1,4 +1,5 @@
 const Membre = require('../models/membre');
+const {Lien} = require('../models/lien');
 // const {ajouterLien} = require('../controllers/lienController');
 
 // Fonction pour ajouter un membre
@@ -9,8 +10,16 @@ const ajouterMembre = async (req, res) => {
     let body = req.body;
     body.id_user = idUtilisateur;
     const nouveauMembre = new Membre(body);
-    await nouveauMembre.save();
-
+    const ttt = await nouveauMembre.save();
+    const datalien = {
+      id_membre: ttt._id,
+      id_user: idUtilisateur,
+      type_de_lien: req.body.type_de_lien
+    };
+    const nouveauLien = new Lien(datalien);
+    let jdatalien = await nouveauLien.save();
+    console.log(nouveauLien);
+    
     //Appel le controlleur de lien pour enregistrer le lien
     // await ajouterLien(membreEnregistrer._id, type_de_lien, idUtilisateur);
 

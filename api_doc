@@ -48,7 +48,7 @@ Modifier un Utilisateur par Email
     Méthode : PUT
     URL : http://localhost:5000/api/utilisateurs/modifier/:email
 
-        Remplace :email par l'email de l'utilisateur à modifier.
+        Remplace ":email" par l'email de l'utilisateur à modifier.
     Headers :
         Content-Type: application/json
     Body (raw, JSON) :
@@ -95,11 +95,112 @@ json
       }
     }
 
+
+Ajouter un Membre
+
+    Méthode : POST
+    URL : http://localhost:5000/api/membres/ajouter
+    Headers :
+        Content-Type: application/json
+        Authorization: Bearer [token]
+
+        Ajouter le token généré lors de la connexion
+    Body (raw, JSON) :
+
+    json
+
+{
+  "nom": "Jane Doe",
+  "prenom": "jack",
+  "sexe": "Femme",
+  "autres_informations": "Informations supplémentaires"
+}
+
+Réponse attendue :
+
+json
+
+    {
+      "Message": "Membre enregistré avec succès"
+    }
+
+Afficher Tous les Membres pour un Utilisateur
+
+    Méthode : GET
+    URL : http://localhost:5000/api/membres/tous
+    Headers :
+        Authorization: Bearer [token]
+    Réponse attendue :
+
+    json
+
+    [
+      {
+        "_id": "60c72b2f9b1e8a5f6d6a15f9",
+        "nom": "Jane Doe",
+        "prenom": "",
+        "sexe": "Femme",
+        "autres_informations": "Informations supplémentaires",
+        "id_user": "60c72b2f9b1e8a5f6d6a15f8",
+        "__v": 0
+      }
+      // Autres membres
+    ]
+
+Modifier un Membre par ID
+
+    Méthode : PUT
+    URL : http://localhost:3000/api/membres/modifier/:id
+
+        Remplace ":id" par l'ID du membre à modifier.
+    Headers :
+        Content-Type: application/json
+        Authorization: Bearer [token]
+    Body (raw, JSON) :
+
+    json
+
+{
+  "nom": "Jane Smith",
+  "age": 31
+}
+
+Réponse attendue :
+
+json
+
+    {
+      "message": "Membre modifié avec succès"
+    }
+
+Récupérer les Membres par Sexe
+
+    Méthode : GET
+    URL : http://localhost:3000/api/membres/sexe/:sexe
+        Remplace :sexe par "Homme" ou "Femme".
+    Réponse attendue :
+
+    json
+
+    [
+      {
+        "_id": "60c72b2f9b1e8a5f6d6a15f9",
+        "nom": "Jane Doe",
+        "age": 30,
+        "sexe": "Femme",
+        "autres_informations": "Informations supplémentaires",
+        "id_user": "60c72b2f9b1e8a5f6d6a15f8",
+        "__v": 0
+      }
+      // Autres membres du même sexe
+    ]
+
 Utilisation dans Postman
 
     Lancer Postman et sélectionner la méthode HTTP appropriée (POST, GET, PUT).
     Entrer l'URL de l'API.
     Ajouter les en-têtes nécessaires :
         Pour toutes les requêtes POST/PUT, ajoute l'en-tête Content-Type: application/json.
+        Ajoute également l'en-tête Authorization: Bearer [token] si la route nécessite une authentification.
     Ajouter le corps de la requête pour les requêtes POST et PUT en choisissant "raw" et en sélectionnant "JSON".
     Envoyer la requête et vérifier la réponse dans la section "Body".
