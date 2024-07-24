@@ -8,21 +8,21 @@ Enregistrer un Utilisateur
 
     json
 
-{
-  "nom": "",
-  "prenom": "",
-  "sexe": "",
-  "email": "john@example.com",
-  "mot_de_passe": "12345678"
-}
-
-Réponse attendue :
-
-json
-
     {
-      "Message": "Utilisateur enregistré avec succès"
+      "nom": "",
+      "prenom": "",
+      "sexe": "",
+      "email": "john@example.com",
+      "mot_de_passe": "12345678"
     }
+
+    Réponse attendue :
+
+    json
+
+        {
+          "Message": "Utilisateur enregistré avec succès"
+        }
 
 Afficher Tous les Utilisateurs
 
@@ -55,17 +55,18 @@ Modifier un Utilisateur par Email
 
     json
 
-{
-  "nom": "John Doe"
-}
-
-Réponse attendue :
-
-json
-
     {
-      "message": "Utilisateur modifié avec succès"
+      "nom": "John Doe"
+      //Autres informations 
     }
+
+    Réponse attendue :
+
+    json
+
+        {
+          "message": "Utilisateur modifié avec succès"
+        }
 
 Connecter un Utilisateur
 
@@ -77,22 +78,46 @@ Connecter un Utilisateur
 
     json
 
-{
-  "email": "john@example.com",
-  "mot_de_passe": "12345678"
-}
-
-Réponse attendue :
-
-json
-
     {
-      "message": "Connexion réussie",
-      "date": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "expiresIn": "12h",
-        "expirationTime": "2023-07-23T12:00:00.000Z"
-      }
+      "email": "john@example.com",
+      "mot_de_passe": "12345678"
+    }
+
+    Réponse attendue :
+
+    json
+
+        {
+          "message": "Connexion réussie",
+          "date": {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+            "expiresIn": "12h",
+            "expirationTime": "2023-07-23T12:00:00.000Z"
+          }
+        }
+
+
+Recuperer le profil d'un 'utilisateur
+
+    Méthode : GET
+    URL : http://localhost:5000/api/utilisateurs/profile
+    Headers :
+        Content-Type: application/json
+        Authorization: Bearer [token]
+
+        Ajouter le token généré lors de la connexion
+
+    Réponse attendue
+
+    "user": 
+    {
+        "_id": "6696933997ca9810cb8b6c04",
+        "nom": "GBOHAIDA",
+        "prenom": "Aristide",
+        "email": "aristide@gmail.com",
+        "sexe": "Masculin",
+        "mot_de_passe": "$2a$10$OtAfPHmjm.kclc8Qme9OluYpX.AZXQOME.OAPxfrjgYbupsbuP2Ge",
+        "__v": 0
     }
 
 
@@ -109,20 +134,20 @@ Ajouter un Membre
 
     json
 
-{
-  "nom": "Jane Doe",
-  "prenom": "jack",
-  "sexe": "Femme",
-  "autres_informations": "Informations supplémentaires"
-}
-
-Réponse attendue :
-
-json
-
     {
-      "Message": "Membre enregistré avec succès"
+      "nom": "Jane Doe",
+      "prenom": "jack",
+      "sexe": "Femme",
+      "autres_informations": "Informations supplémentaires"
     }
+
+    Réponse attendue :
+
+    json
+
+        {
+          "Message": "Membre enregistré avec succès"
+        }
 
 Afficher Tous les Membres pour un Utilisateur
 
@@ -152,7 +177,7 @@ Modifier un Membre par ID
     Méthode : PUT
     URL : http://localhost:3000/api/membres/modifier/:id
 
-        Remplace ":id" par l'ID du membre à modifier.
+        Remplace ":id" par ID du membre à modifier.
     Headers :
         Content-Type: application/json
         Authorization: Bearer [token]
@@ -160,18 +185,18 @@ Modifier un Membre par ID
 
     json
 
-{
-  "nom": "Jane Smith",
-  "age": 31
-}
+      {
+        "nom": "Jane Smith",
+        "age": 31
+      }
 
-Réponse attendue :
+      Réponse attendue :
 
-json
+      json
 
-    {
-      "message": "Membre modifié avec succès"
-    }
+          {
+            "message": "Membre modifié avec succès"
+          }
 
 Récupérer les Membres par Sexe
 

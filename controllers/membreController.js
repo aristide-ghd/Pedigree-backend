@@ -1,6 +1,5 @@
 const Membre = require('../models/membre');
 const {Lien} = require('../models/lien');
-// const {ajouterLien} = require('../controllers/lienController');
 
 // Fonction pour ajouter un membre
 const ajouterMembre = async (req, res) => {
@@ -11,6 +10,7 @@ const ajouterMembre = async (req, res) => {
     body.id_user = idUtilisateur;
     const nouveauMembre = new Membre(body);
     const ttt = await nouveauMembre.save();
+    //Enregistement dans la table Lien
     const datalien = {
       id_membre: ttt._id,
       id_user: idUtilisateur,
@@ -19,9 +19,6 @@ const ajouterMembre = async (req, res) => {
     const nouveauLien = new Lien(datalien);
     let jdatalien = await nouveauLien.save();
     console.log(nouveauLien);
-    
-    //Appel le controlleur de lien pour enregistrer le lien
-    // await ajouterLien(membreEnregistrer._id, type_de_lien, idUtilisateur);
 
     const retour = {
       "Message": "Membre enregistré avec sucès"
@@ -43,7 +40,7 @@ const getTousMembres = async (req, res) => {
   }
 };
 
-// Fonction pour modifier un membre
+// Fonction pour modifier un membre d'un utilisateur
 const modifierMembreParId = async (req, res) => {
   try {
     console.log(req.params.id);
@@ -65,6 +62,8 @@ const getMembreParSexe = async (req, res) => {
   const { sexe } = req.params;
 
   try {
+    const idUtilisateur = req.user.identity._id
+    let body = req.body
     const membres = await Membre.find({ sexe });
     res.json(membres);
   } catch (error) {

@@ -12,9 +12,9 @@ router.post('/ajouter', authMiddleware, yupValidator(addMembreDto) ,ajouterMembr
 router.get('/tous', authMiddleware, getTousMembres);
 
 //Route pour modifier un membre d'un utilisateur par l'ID
-router.put('/modifier/:id', modifierMembreParId);
+router.put('/modifier/:id', authMiddleware, modifierMembreParId);
 
 //Route pour recupérer les membres par sexe pour un utilisateur
-router.get('/recuperer/:sexe', getMembreParSexe);
+router.get('/recuperer/:sexe', authMiddleware, getMembreParSexe);
 
 module.exports = router;

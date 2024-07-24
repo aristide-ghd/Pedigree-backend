@@ -95,4 +95,19 @@ const generateJwt= (identity) =>{
   }
 };
 
-module.exports = { enregistrerUtilisateur, getTousUtilisateurs, modifierUtilisateurParEmail,connecterUtilisateur };
+//Fonction pour obtenir les infos du profil de l'utilisateur connecté
+const getProfile = async (req, res) => {
+  try {
+    const idUtilisateur = req.user.identity._id;
+    const user = await User.findById(idUtilisateur);
+    if(!user) {
+      return res.status(400).json({ message: "Utilisateur non trouvé"});
+    }
+    res.status(200).json({user});
+  }
+  catch (err)
+  {
+    res.status(400).json({ message: "Erreur lors de la recupération du profil"});
+  }
+}
+module.exports = { enregistrerUtilisateur, getTousUtilisateurs, modifierUtilisateurParEmail, connecterUtilisateur, getProfile };
