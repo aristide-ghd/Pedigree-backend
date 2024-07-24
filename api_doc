@@ -151,10 +151,18 @@ Ajouter un Membre
 
 Afficher Tous les Membres pour un Utilisateur
 
-    Méthode : GET
     URL : http://localhost:5000/api/membres/tous
+    Méthode : GET
+        Sans filtre : /api/membres/tous
+        Filtrer par sexe : /api/membres/tous?sexe=Masculin
+        Filtrer par type de lien : /api/membres/tous?type_de_lien=Fils
+        Filtrer par sexe et type de lien : /api/membres/tous?sexe=Masculin&type_de_lien=Fils
     Headers :
         Authorization: Bearer [token]
+    Query Params :
+        sexe: Masculin, Féminin ou Autre 
+        type_de_lien: Fils (ou tout autre type de lien)
+
     Réponse attendue :
 
     json
@@ -169,13 +177,48 @@ Afficher Tous les Membres pour un Utilisateur
         "id_user": "60c72b2f9b1e8a5f6d6a15f8",
         "__v": 0
       }
-      // Autres membres
+      // Autres membres en fonction du sexe et du type_de_lien
     ]
+
+Afficher un Membre par ID
+
+    Méthode : GET
+    URL : http://localhost:5000/api/membres/afficher/:id
+
+        Remplace ":id" par ID du membre à afficher.
+    Headers :
+        Content-Type: application/json
+        Authorization: Bearer [token]
+
+      Réponse attendue :
+
+      json
+
+      {
+        "message": "Membre trouvé avec succès",
+        "data":   
+              {
+                "nom": "",
+                "prenom": "",
+                "sexe": "",
+                "date_de_naissance": "2003-04-02T23:00:00.000Z",
+                "statut_matrimonial": "Celibataire",
+                "id_pere": "",
+                "id_mere": "",
+                "profession": "",
+                "religion": "",
+                "groupe_sanguin": "",
+                "signe_du_fa": "",
+                "electrophorese": "",
+                "id_user": "",
+                "__v": 0
+              }
+      }
 
 Modifier un Membre par ID
 
     Méthode : PUT
-    URL : http://localhost:3000/api/membres/modifier/:id
+    URL : http://localhost:5000/api/membres/modifier/:id
 
         Remplace ":id" par ID du membre à modifier.
     Headers :
@@ -201,7 +244,7 @@ Modifier un Membre par ID
 Récupérer les Membres par Sexe
 
     Méthode : GET
-    URL : http://localhost:3000/api/membres/sexe/:sexe
+    URL : http://localhost:5000/api/membres/sexe/:sexe
         Remplace :sexe par "Homme" ou "Femme".
     Réponse attendue :
 
