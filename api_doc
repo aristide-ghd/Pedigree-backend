@@ -111,12 +111,12 @@ Recuperer le profil d'un 'utilisateur
 
     "user": 
     {
-        "_id": "6696933997ca9810cb8b6c04",
-        "nom": "GBOHAIDA",
-        "prenom": "Aristide",
-        "email": "aristide@gmail.com",
-        "sexe": "Masculin",
-        "mot_de_passe": "$2a$10$OtAfPHmjm.kclc8Qme9OluYpX.AZXQOME.OAPxfrjgYbupsbuP2Ge",
+        "_id": "",
+        "nom": "",
+        "prenom": "",
+        "email": "",
+        "sexe": "",
+        "mot_de_passe": "",
         "__v": 0
     }
 
