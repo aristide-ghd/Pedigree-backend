@@ -29,7 +29,7 @@ const ajouterMembre = async (req, res) => {
   }
 };
 
-// Fonction pour afficher tous les membres pour un utilisateur
+// Fonction pour afficher tous les membres pour un utilisateur par sexe et par type de lien
 const getTousMembres = async (req, res) => {
   const idUtilisateur = req.user.identity._id
   //Recupere les params de requete si ils sont fournis
@@ -108,7 +108,6 @@ const getMembreParSexe = async (req, res) => {
 
   try {
     const idUtilisateur = req.user.identity._id
-    let body = req.body
     const membres = await Membre.find({ sexe });
     res.json(membres);
   } catch (error) {

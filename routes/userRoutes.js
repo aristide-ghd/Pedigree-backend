@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const {authMiddleware} = require('../middleware/authMiddleware');
+const {yupValidator} = require('../middleware/yup');
+const {addUserDto} = require('../dto/adduserDto');
+const {connexionDto} = require('../dto/connexionDto');
 const { enregistrerUtilisateur, getTousUtilisateurs, modifierUtilisateurParEmail, connecterUtilisateur, getProfile } = require('../controllers/userController');
 
 // Route pour enregistrer un utilisateur
@@ -13,7 +16,7 @@ router.get('/tous', getTousUtilisateurs);
 router.put('/modifier/:email', modifierUtilisateurParEmail);
 
 // Route pour connecter un utilisateur 
-router.post('/connexion', connecterUtilisateur);
+router.post('/connexion', yupValidator(connexionDto), connecterUtilisateur);
 
 //Route pour afficher le profil d'un utilisateur
 router.get('/profile', authMiddleware, getProfile);

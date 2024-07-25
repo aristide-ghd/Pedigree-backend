@@ -17,7 +17,12 @@ const enregistrerUtilisateur = async (req, res) => {
     }
     res.status(201).json(retour);
   } catch (err) {
-    res.status(400).json({ message: "Cet e-mail existe déjà" });
+    // Vérifie si l'erreur est liée à un duplicata d'e-mail(11000 est le code d'erreur MongoDB)
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
+      res.status(400).json({ message: "Cet e-mail existe déjà" });
+    } else {
+      res.status(400).json({ message: "Erreur d'enregistrement de l'utilisateur" });
+    }
   }
 };
 
