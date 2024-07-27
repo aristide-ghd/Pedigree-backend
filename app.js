@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const protectedRoutes = require('./routes/protectedRoutes');
 const lienRoutes = require('./routes/lienRoutes');
 const RoleRoute = require('./routes/RoleRoute');
+const familyRoutes = require('./routes/familyRoutes.js');
 require('dotenv').config();
 const cors = require('cors');
 
@@ -24,6 +25,7 @@ app.use('/api/utilisateurs', userRoutes);
 app.use('/api/protected', protectedRoutes);
 app.use('/api/liens', lienRoutes);
 app.use('/api/UserRoles', RoleRoute);
+app.use('/api/Familly', familyRoutes);
 
 // Port d'ecoute
 const PORT = process.env.PORT || 5000;

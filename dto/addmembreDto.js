@@ -19,6 +19,7 @@ exports.addMembreDto =  object({
     groupe_sanguin: string(),
     signe_du_fa: string(),
     electrophorese: string(),
-    id_arbre: string()
+    id_arbre: string(),
+    famille_id: string().nullable()
   }),
 });
