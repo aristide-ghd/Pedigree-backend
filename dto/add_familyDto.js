@@ -7,6 +7,5 @@ exports.add_familyDto = object({
         country: string().required('Veuillez renseigner votre pays de provenance'),
         village: string().required('Votre village est requis pour plus de précision'),
         id_creator: string().nullable(),
-        id_famille: string()
     }),
 });
