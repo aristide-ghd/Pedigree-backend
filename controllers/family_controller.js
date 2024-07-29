@@ -21,7 +21,11 @@ const create_famliy = async (req, res) => {
     }
 };
 
-//A function to update a member info by adding him to a family
+//A function to get the list of all the families added to date
 
+const get_family_list = (req, res) => {
+    const list = Family;
+    res.status(201).json(list);
+}
 
 module.exports = create_famliy;

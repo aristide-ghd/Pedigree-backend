@@ -7,8 +7,7 @@ const familySchema = new mongoose.Schema ({
     ethnicity: { type: String, required: true},
     country: { type: String, required: true},
     village: {type: String, required: true},
-    id_creator:{ type: mongoose.Schema.Types.ObjectId, ref: 'Creator', required: false},
-    id_famille: { type: mongoose.Schema.Types.ObjectId, ref: 'Famille', required: false}
+    id_creator:{ type: mongoose.Schema.Types.ObjectId, required: false},
 });
 
 module.exports = mongoose.model('Family', familySchema);
