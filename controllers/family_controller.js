@@ -46,4 +46,4 @@ const get_family_list =  async (req, res) => {
 
 // A function to search for a specif
 
-module.exports = {create_family, get_family_list, };
+module.exports = {create_family, get_family_list};

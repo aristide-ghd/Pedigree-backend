@@ -2,26 +2,54 @@ const User = require('../models/user/user');
 const ObjectId = require('mongodb').ObjectId;
 const jwt = require('jsonwebtoken'); 
 const bcrypt = require('bcryptjs');
+const Roles =  require("../models/user/roles.js");
+const Family = require('../models/family.js');
 
 // Fonction pour enregistrer un utilisateur et crypter le mot de passe
 const enregistrerUtilisateur = async (req, res) => {
-  try {
+  let fam_owner = false;
+  const data = req.body;
+ try {
     //Debut cryptage du mot de passe
     const password = await bcrypt.hash( req.body.mot_de_passe, 10);
-    const data = req.body;
     data.mot_de_passe = password; //Fin de cryptage 
-    const nouvelUtilisateur = new User(req.body);
-    await nouvelUtilisateur.save();
-    const retour = {
-      "Message" : "Utilisateur enregistré avec succès"
-    }
-    res.status(201).json(retour);
+    let {fam_exist} = data;// obtain the family_tag info
+    if (!fam_exist) {// if the family did not exist
+      fam_owner = true;// set the owner tag to 'true'
+        const user_data = { // fill the field of the table with the frotntend info
+          nom: data.nom,
+          prenom: data.prenom,
+          email: data.email,
+          role: Roles[0].role.id,
+          sexe: data.sexe,
+          mot_de_passe: data.mot_de_passe,
+          id_famille : data.newFamille._id
+        };
+        const new_user = new User(user_data);
+        let newUser = await new_user.save();// save in the database
+        console.log(new_user);
+        res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner});
+    } else {
+      const user_data = {
+        nom: data.nom,
+        prenom: data.prenom,
+        email: data.email,
+        role: Roles[1].role.id,
+        sexe: data.sexe,
+        mot_de_passe: data.mot_de_passe,
+        id_famille : data.idFamille
+      };
+      const nouvelUtilisateur = new User(user_data);
+      await nouvelUtilisateur.save();
+      console.log(nouvelUtilisateur);
+      res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner});
+    };
   } catch (err) {
     // Vérifie si l'erreur est liée à un duplicata d'e-mail(11000 est le code d'erreur MongoDB)
     if (err.code === 11000 && err.keyPattern && err.keyPattern.email) {
       res.status(400).json({ message: "Cet e-mail existe déjà" });
     } else {
-      res.status(400).json({ message: "Erreur d'enregistrement de l'utilisateur" });
+      res.status(400).json({ message: "Erreur lors de l'enregistrement de l'utilisateur" });
     }
   }
 };
