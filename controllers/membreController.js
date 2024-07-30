@@ -1,5 +1,7 @@
 const Membre = require('../models/membre');
 const {Lien} = require('../models/lien');
+const Family = require('../models/family.js');
+
 
 // Fonction pour ajouter un membre
 const ajouterMembre = async (req, res) => {

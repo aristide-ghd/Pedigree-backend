@@ -19,7 +19,7 @@ const membreSchema = new mongoose.Schema({
   electrophorese: { type: String, required: false },
   id_user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
   id_arbre: { type: mongoose.Schema.Types.ObjectId, ref: 'Arbre' },
-  famille_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Famille', default: null },
+  id_familyOwner: {type: mongoose.Schema.Types.ObjectId, required: false}
 });
 
 // Exports du modèle pour l'utiliser ailleurs dans l'application
