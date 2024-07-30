@@ -7,13 +7,22 @@ Enregistrer un Utilisateur
     Body (raw, JSON) :
 
     json
-
+    (si un utilisateur voulant s\inscrire appartient à une famille nn enrégistrer)
     {
       "nom": "",
       "prenom": "",
       "sexe": "",
       "email": "john@example.com",
-      "mot_de_passe": "12345678"
+      "mot_de_passe": "12345678",
+      "newFamille": {
+        "family_name": "",
+        "ethnicity": "",
+        "country": "",
+        "village": "",
+        "_id": "",
+        "__v": 0
+      },
+      "fam_exist": false
     }
 
     Réponse attendue :
@@ -21,8 +30,29 @@ Enregistrer un Utilisateur
     json
 
         {
-          "Message": "Utilisateur enregistré avec succès"
+          "Message": "Utilisateur enregistré avec succès",
+          "fam_owner": true
         }
+    (si un utilisateur voulant s\inscrire appartient à une famille déja enrégistrer)
+        {
+          "nom": "",
+          "prenom": "",
+          "sexe": "",
+          "email": "john@example.com",
+          "mot_de_passe": "12345678",
+          "family_name": "",
+          "fam_exist": true,
+          "idFamille": ""
+        }
+
+    Réponse attendue :
+
+    json
+
+    {
+      "Message": "Utilisateur enregistré avec succès",
+      "fam_owner": false
+    }
 
 Afficher Tous les Utilisateurs
 
