@@ -25,7 +25,6 @@ const create_family = async (req, res) => {
                 village: village 
             };
             const newFamille = new Family(_body);
-            await newFamille.save(); // create the family
             res.status(201).json({Message: "Famille créer avec succès", newFamille, fam_exist}); // send back the infos on the newly created family and the status of the tag 'fam_exist'    
         };
     } catch(err) {

@@ -9,6 +9,7 @@ const ajouterMembre = async (req, res) => {
     //Recupere l'id de l'utilisateur qui est connecté
     const idUtilisateur = req.user.identity._id;
     let body = req.body;
+    let family_id = body.idFamille; 
     body.id_user = idUtilisateur;
     const nouveauMembre = new Membre(body);
     const ttt = await nouveauMembre.save();

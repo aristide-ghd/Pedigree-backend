@@ -9,15 +9,16 @@ const Family = require('../models/family.js');
 const enregistrerUtilisateur = async (req, res) => {
   let fam_owner = false;
   const data = req.body;
- try {
+  let nv_nom = data.nom.toUpperCase();
+  try {
     //Debut cryptage du mot de passe
     const password = await bcrypt.hash( req.body.mot_de_passe, 10);
     data.mot_de_passe = password; //Fin de cryptage 
-    let {fam_exist} = data;// obtain the family_tag info
-    if (!fam_exist) {// if the family did not exist
+    let {fam_exist} = data; // obtain the family_tag info
+    if (!fam_exist) { // if the family did not exist
       fam_owner = true;// set the owner tag to 'true'
-        const user_data = { // fill the field of the table with the frotntend info
-          nom: data.nom,
+        const user_data = { // fill the field of the table 'user' with the frotntend info
+          nom: nv_nom,
           prenom: data.prenom,
           email: data.email,
           role: Roles[0].role.id,
@@ -26,12 +27,22 @@ const enregistrerUtilisateur = async (req, res) => {
           id_famille : data.newFamille._id
         };
         const new_user = new User(user_data);
-        let newUser = await new_user.save();// save in the database
+        let newUser = await new_user.save(); // save in the new user in the database
+        const fam_info = { // fill the field of the table 'family' with the frotntend info
+          family_name: data.newFamille.family_name,
+          ethnicity: data.newFamille.ethnicity,
+          country: data.newFamille.country, 
+          village: data.newFamille.village,
+          id_creator: newUser._id
+        };
+        const nvFamille = new Family(fam_info);
+        await nvFamille.save();
         console.log(new_user);
+        console.log(nvFamille);
         res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner});
     } else {
       const user_data = {
-        nom: data.nom,
+        nom: nv_nom,
         prenom: data.prenom,
         email: data.email,
         role: Roles[1].role.id,
