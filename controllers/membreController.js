@@ -1,7 +1,7 @@
 const Membre = require('../models/membre');
 const {Lien} = require('../models/lien');
 const Family = require('../models/family.js');
-
+const User = require('../models/user/user');
 
 // Fonction pour ajouter un membre
 const ajouterMembre = async (req, res) => {
@@ -9,24 +9,56 @@ const ajouterMembre = async (req, res) => {
     //Recupere l'id de l'utilisateur qui est connecté
     const idUtilisateur = req.user.identity._id;
     let body = req.body;
-    let family_id = body.idFamille; 
+    const UserStatus  = body.fam_owner;
     body.id_user = idUtilisateur;
-    const nouveauMembre = new Membre(body);
-    const ttt = await nouveauMembre.save();
-    //Enregistement dans la table Lien
-    const datalien = {
-      id_membre: ttt._id,
-      id_user: idUtilisateur,
-      type_de_lien: req.body.type_de_lien
-    };
-    const nouveauLien = new Lien(datalien);
-    let jdatalien = await nouveauLien.save();
-    console.log(nouveauLien);
-
-    const retour = {
-      "Message": "Membre enregistré avec sucès"
+    let identity = false;
+    if (body.name === body.new_user.nom && body.prenom === body.new_user.prenom) {
+        identity = true;
     }
-    res.status(201).json(retour);
+    console.log(identity);
+    // if (identity && UserStatus == true) { // if the "admin" is adding himself as a member
+    //   const nouveauMembre = new Membre(body);
+    //   await nouveauMembre.save();// add the family owner himself as a member of the family
+    //   res.status(201).json({Message: "Membre enregistré avec sucès1"});
+    // };
+    // if (identity && UserStatus == false) {// if the "user" is adding himself as a member
+    //   console.log("miaou2");
+    //   const familyId =  body.new_user.id_famille;
+    //   const family = await Family.findOne({_id: familyId});
+    //   const ownerId = family.id_creator
+    //   const owner = await User.findOne({_id: ownerId});
+    //   const owner_info = {
+    //     owner_firstname: owner.name,
+    //     owner_lastname : owner.prenom
+    //   };
+    //   res.status(200).json({owner_info});
+    //   const nouveauMembre = new Membre(body);
+    //   const ttt = await nouveauMembre.save();
+    //   //Enregistement dans la table Lien
+    //   const datalien = {
+    //     id_membre: ttt._id,
+    //     id_user: idUtilisateur,
+    //     type_de_lien: req.body.type_de_lien
+    //   };
+    //   const nouveauLien = new Lien(datalien);
+    //   await nouveauLien.save();
+    //   res.status(201).json({Message: "Membre enregistré avec sucès2"});
+    //   console.log(nouveauLien);
+    // };
+    //if (!identity) {
+      console.log("miaou3");
+      const nouveauMembre = new Membre(body);
+      const ttt = await nouveauMembre.save();
+      const datalien = {
+        id_membre: ttt._id,
+        id_user: idUtilisateur,
+        type_de_lien: req.body.type_de_lien
+      };
+      const nouveauLien = new Lien(datalien);
+      await nouveauLien.save();
+      res.status(201).json({Message: "Membre enregistré avec sucès3"});
+      console.log(nouveauLien);
+    //};
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

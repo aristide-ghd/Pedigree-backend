@@ -8,9 +8,9 @@ const userSchema = new mongoose.Schema({
   prenom: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   role: { type: String, enum: [Roles[0].role.id, Roles[1].role.id], required: false},
-  sexe: { type: String, enum: ['Masculin', 'Feminin', 'Autre..'], required: false},
+  sexe: { type: String, enum: ['Masculin', 'Feminin'], required: false},
   mot_de_passe: { type: String, required: true },
-  id_famille : {type: String, required: false}
+  id_famille : {type: String, required: false},
 });
 
 //Hacher le mot de passe avant sauvegarde de l'utilisateur

@@ -24,10 +24,11 @@ const enregistrerUtilisateur = async (req, res) => {
           role: Roles[0].role.id,
           sexe: data.sexe,
           mot_de_passe: data.mot_de_passe,
-          id_famille : data.newFamille._id
+          id_famille : data.newFamille._id,
         };
         const new_user = new User(user_data);
         let newUser = await new_user.save(); // save in the new user in the database
+        console.log(tagg);
         const fam_info = { // fill the field of the table 'family' with the frotntend info
           family_name: data.newFamille.family_name,
           ethnicity: data.newFamille.ethnicity,
@@ -36,10 +37,8 @@ const enregistrerUtilisateur = async (req, res) => {
           id_creator: newUser._id
         };
         const nvFamille = new Family(fam_info);
-        await nvFamille.save();
-        console.log(new_user);
-        console.log(nvFamille);
-        res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner});
+        await nvFamille.save();// save the family created in the database
+        res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner, new_user});
     } else {
       const user_data = {
         nom: nv_nom,
@@ -50,10 +49,9 @@ const enregistrerUtilisateur = async (req, res) => {
         mot_de_passe: data.mot_de_passe,
         id_famille : data.idFamille
       };
-      const nouvelUtilisateur = new User(user_data);
-      await nouvelUtilisateur.save();
-      console.log(nouvelUtilisateur);
-      res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner});
+      const new_user = new User(user_data);
+      await new_user.save();
+      res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner, new_user});
     };
   } catch (err) {
     // Vérifie si l'erreur est liée à un duplicata d'e-mail(11000 est le code d'erreur MongoDB)
