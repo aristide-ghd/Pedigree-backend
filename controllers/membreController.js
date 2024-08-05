@@ -11,44 +11,43 @@ const ajouterMembre = async (req, res) => {
     let body = req.body;
     const UserStatus  = body.fam_owner;
     body.id_user = idUtilisateur;
-    let identity = false;
-    if (body.name === body.new_user.nom && body.prenom === body.new_user.prenom) {
-        identity = true;
-    }
-    console.log(identity);
-    // if (identity && UserStatus == true) { // if the "admin" is adding himself as a member
-    //   const nouveauMembre = new Membre(body);
-    //   await nouveauMembre.save();// add the family owner himself as a member of the family
-    //   res.status(201).json({Message: "Membre enregistré avec sucès1"});
-    // };
-    // if (identity && UserStatus == false) {// if the "user" is adding himself as a member
-    //   console.log("miaou2");
-    //   const familyId =  body.new_user.id_famille;
-    //   const family = await Family.findOne({_id: familyId});
-    //   const ownerId = family.id_creator
-    //   const owner = await User.findOne({_id: ownerId});
-    //   const owner_info = {
-    //     owner_firstname: owner.name,
-    //     owner_lastname : owner.prenom
-    //   };
-    //   res.status(200).json({owner_info});
-    //   const nouveauMembre = new Membre(body);
-    //   const ttt = await nouveauMembre.save();
-    //   //Enregistement dans la table Lien
-    //   const datalien = {
-    //     id_membre: ttt._id,
-    //     id_user: idUtilisateur,
-    //     type_de_lien: req.body.type_de_lien
-    //   };
-    //   const nouveauLien = new Lien(datalien);
-    //   await nouveauLien.save();
-    //   res.status(201).json({Message: "Membre enregistré avec sucès2"});
-    //   console.log(nouveauLien);
-    // };
-    //if (!identity) {
-      console.log("miaou3");
-      const nouveauMembre = new Membre(body);
+    console.log("miaou3");
+    const nouveauMembre = new Membre(body);
+    const ttt = await nouveauMembre.save();
+    const datalien = {
+      id_membre: ttt._id,
+      id_user: idUtilisateur,
+      type_de_lien: req.body.type_de_lien
+    };
+    const nouveauLien = new Lien(datalien);
+    await nouveauLien.save();
+    res.status(201).json({Message: "Membre enregistré avec succès"});
+    console.log(nouveauLien);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const add_admin_as_member = async (req, res) => {
+  try {
+    let body = req.body;
+    const nouveauMembre = new Membre(body);
+    await nouveauMembre.save();// add the family owner himself as a member of the family
+    res.status(201).json({Message: "Vous avez été ajouter comme membre avec succès"});
+
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const add_user_as_member = async (req, res) => {
+  try {
+    const idUtilisateur = req.user.identity._id;
+    let body = req.body;
+    body.id_user = idUtilisateur;
+    const nouveauMembre = new Membre(body);
       const ttt = await nouveauMembre.save();
+      //Enregistement dans la table Lien
       const datalien = {
         id_membre: ttt._id,
         id_user: idUtilisateur,
@@ -56,13 +55,13 @@ const ajouterMembre = async (req, res) => {
       };
       const nouveauLien = new Lien(datalien);
       await nouveauLien.save();
-      res.status(201).json({Message: "Membre enregistré avec sucès3"});
+      res.status(201).json({Message: " Vous avez été ajouter comme membre avec succès"});
       console.log(nouveauLien);
-    //};
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 };
+
 
 // Fonction pour afficher tous les membres pour un utilisateur par sexe et par type de lien
 const getTousMembres = async (req, res) => {
@@ -167,4 +166,4 @@ const getMembreParSexe = async (req, res) => {
 //   }
 // };
 
-module.exports = { ajouterMembre, getTousMembres, modifierMembreParId, getMembreParSexe, AfficherMembreParId };
+module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, getTousMembres, modifierMembreParId, getMembreParSexe, AfficherMembreParId };

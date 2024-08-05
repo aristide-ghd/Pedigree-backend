@@ -28,7 +28,6 @@ const enregistrerUtilisateur = async (req, res) => {
         };
         const new_user = new User(user_data);
         let newUser = await new_user.save(); // save in the new user in the database
-        console.log(tagg);
         const fam_info = { // fill the field of the table 'family' with the frotntend info
           family_name: data.newFamille.family_name,
           ethnicity: data.newFamille.ethnicity,
@@ -40,7 +39,7 @@ const enregistrerUtilisateur = async (req, res) => {
         await nvFamille.save();// save the family created in the database
         res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner, new_user});
     } else {
-      const user_data = {
+        const user_data = {
         nom: nv_nom,
         prenom: data.prenom,
         email: data.email,
@@ -110,7 +109,7 @@ const connecterUtilisateur = async (req, res) => {
     //Si les informations sont valides
     console.log(utilisateur);
     const return_token = generateJwt(utilisateur)
-    console.log(return_token)
+    //console.log(return_token)
     res.status(200).json({ message: "Connexion réussie", date:return_token});
   }
   catch (err) {

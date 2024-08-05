@@ -4,7 +4,7 @@ const TYPES_LIENS = ['Père', 'Mère', 'Beau-père', 'Belle-mère', 'Frère', 'S
 
 // Definition du schema mongoose pour les liens des membres de la famille
 const lienSchema = new mongoose.Schema({
-  type_de_lien: { type: String, enum: TYPES_LIENS, required: true/*function() {return  !this.id_user.isAdmin;}*/ },//make the field required if the user is not an admin
+  type_de_lien: { type: String, enum: TYPES_LIENS, required: true},
   id_user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   id_membre: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', required: true }
 });
