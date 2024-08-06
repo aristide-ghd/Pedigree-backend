@@ -14,12 +14,12 @@ const checkPermission = (permissions) => {
         const user_id = req.user.identity._id;
         const user = await User.findById(user_id);
         if (!user) 
-          return res.status(404).send({ message: 'User not found' }); 
+          return res.status(404).send({ message: 'Utlisateur non enrégistrer' }); 
         const userRole = req.user.identity.role;
         if (permissions.includes(userRole)) {
             next();
         } else {
-              res.status(403).json({ error: 'Access Forbidden' });
+              res.status(403).json({ error: 'Accès Refusé, vous n\'avez pas les authorisations nécéssaire' });
           }
       } catch (err) {
           res.status(400).json({ message: "Jeton invalide" });

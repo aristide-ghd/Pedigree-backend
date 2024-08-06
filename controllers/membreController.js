@@ -101,23 +101,41 @@ const getTousMembres = async (req, res) => {
   }
 };
 
-// Fonction pour afficher un membre d'un utilisateur
-const AfficherMembreParId = async (req, res) => {
+// Fonction pour afficher les détails d'un membre 
+const details_member = async (req, res) => {
   try {
     console.log(req.params.id);
     console.log(req.body);
     const membre = await Membre.findOne({_id:req.params.id},{_id: false });
-    console.log(membre);
-    
     if(!membre) {
       return res.status(400).json({ message: "Membre non trouvé" });
     }
-    res.status(201).json({ message: "Membre trouvé avec succès", data: membre });
+    //console.log(membre);
+    const details = {
+      nom: membre.nom,
+      prenom: membre.prenom,
+      sexe: membre.sexe,
+      date_de_naissance: membre.date_de_naissance,
+      statut_matrimonial: membre.statut_matrimonial,
+      conjoint: membre.conjoint,
+      profession: membre.profession,
+      religion: membre.religion,
+      groupe_sanguin: membre.groupe_sanguin,
+      electrophorese: membre.electrophorese
+    };
+    res.status(201).json({ message: "Membre trouvé avec succès", data: details});
   }
   catch (err) {
     res.status(400).json({ message: "Erreur de lecture"});
   }
 };
+
+//Fonction pour afficher tous les détails d'un utilisateur par Id
+// const MemberDetails = async (req, res) => {
+//   try {
+
+//   }
+// };
 
 // Fonction pour modifier un membre d'un utilisateur
 const modifierMembreParId = async (req, res) => {
@@ -135,6 +153,7 @@ const modifierMembreParId = async (req, res) => {
     res.status(400).json({ message: "Erreur de modification"});
   }
 };
+
 
 // Fonction pour récupérer les membres par sexe
 const getMembreParSexe = async (req, res) => {
@@ -166,4 +185,4 @@ const getMembreParSexe = async (req, res) => {
 //   }
 // };
 
-module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, getTousMembres, modifierMembreParId, getMembreParSexe, AfficherMembreParId };
+module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, getTousMembres, modifierMembreParId, getMembreParSexe, details_member };

@@ -110,7 +110,7 @@ const connecterUtilisateur = async (req, res) => {
     console.log(utilisateur);
     const return_token = generateJwt(utilisateur)
     //console.log(return_token)
-    res.status(200).json({ message: "Connexion réussie", date:return_token});
+    res.status(200).json({ message: "Connexion réussie", date:return_token, utilisateur});
   }
   catch (err) {
     res.status(400).json({ message: "Veuillez-vous inscrire" });
