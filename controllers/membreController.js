@@ -3,10 +3,9 @@ const {Lien} = require('../models/lien');
 const Family = require('../models/family.js');
 const User = require('../models/user/user');
 
-// Fonction pour ajouter un membre
+
 const ajouterMembre = async (req, res) => {
   try {
-    //Recupere l'id de l'utilisateur qui est connecté
     const idUtilisateur = req.user.identity._id;
     let body = req.body;
     const UserStatus  = body.fam_owner;
@@ -61,6 +60,16 @@ const add_user_as_member = async (req, res) => {
   }
 };
 
+//Fonction pour obtenir la list des membres de famille de l'utilisateur connecté
+const list_family_members = async (req, res) => {
+    const nom_de_famille = req.user.identity.nom;
+    try {
+      const members = await Membre.find({nom: nom_de_famille});
+      res.status(201).json({Message: 'List des membres', members});
+    } catch(error) {
+      res.status(400).json({Message: 'Erreur au niveau de l\'obtention de la list des membres'});
+    }
+};
 
 // Fonction pour afficher tous les membres pour un utilisateur par sexe et par type de lien
 const getTousMembres = async (req, res) => {
@@ -177,4 +186,4 @@ const getMembreParSexe = async (req, res) => {
 //   }
 // };
 
-module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, getTousMembres, modifierMembreParId, getMembreParSexe, details_member };
+module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, list_family_members, getTousMembres, modifierMembreParId, getMembreParSexe, details_member };
