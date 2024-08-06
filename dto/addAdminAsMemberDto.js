@@ -23,6 +23,5 @@ exports.addAdminAsMemberDto =  object({
     electrophorese: string(),
     id_arbre: string(),
     famille_id: string().nullable(),
-    family_creator: string().oneOf(['Yes', 'No']).required("Êtes vous le createur de la famille?")
   }),
 });

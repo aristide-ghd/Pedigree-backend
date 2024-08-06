@@ -11,7 +11,6 @@ const ajouterMembre = async (req, res) => {
     let body = req.body;
     const UserStatus  = body.fam_owner;
     body.id_user = idUtilisateur;
-    console.log("miaou3");
     const nouveauMembre = new Membre(body);
     const ttt = await nouveauMembre.save();
     const datalien = {
@@ -129,13 +128,6 @@ const details_member = async (req, res) => {
     res.status(400).json({ message: "Erreur de lecture"});
   }
 };
-
-//Fonction pour afficher tous les détails d'un utilisateur par Id
-// const MemberDetails = async (req, res) => {
-//   try {
-
-//   }
-// };
 
 // Fonction pour modifier un membre d'un utilisateur
 const modifierMembreParId = async (req, res) => {

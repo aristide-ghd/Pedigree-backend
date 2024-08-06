@@ -93,6 +93,7 @@ const modifierUtilisateurParEmail = async (req, res) => {
 const connecterUtilisateur = async (req, res) => {
   try {
     const { email, mot_de_passe } = req.body;
+    let fam_owner = false;
 
     //Verifie si l'email existe dans la base de données
     const utilisateur = await User.findOne({ email }, { projection: { _id: 0} });
@@ -108,9 +109,13 @@ const connecterUtilisateur = async (req, res) => {
 
     //Si les informations sont valides
     console.log(utilisateur);
-    const return_token = generateJwt(utilisateur)
+    const return_token = generateJwt(utilisateur);
+    if (utilisateur.role === 'ADMIN')
+        fam_owner = true;
+    else
+        fam_owner = false;
     //console.log(return_token)
-    res.status(200).json({ message: "Connexion réussie", date:return_token, utilisateur});
+    res.status(200).json({ message: "Connexion réussie", date:return_token, utilisateur, fam_owner});
   }
   catch (err) {
     res.status(400).json({ message: "Veuillez-vous inscrire" });

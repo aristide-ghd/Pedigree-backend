@@ -1,7 +1,7 @@
 Enregistrer un Utilisateur
 
     Méthode : POST
-    URL : http://localhost:5000/api/utilisateurs/enregistrer
+    URL : http://localhost:5000/api/auth/enregistrer
     Headers :
         Content-Type: application/json
     Body (raw, JSON) :
@@ -57,7 +57,7 @@ Enregistrer un Utilisateur
 Afficher Tous les Utilisateurs
 
     Méthode : GET
-    URL : http://localhost:5000/api/utilisateurs/tous
+    URL : http://localhost:5000/api/utils/All-accounts
     Réponse attendue :
 
     json
@@ -76,7 +76,7 @@ Afficher Tous les Utilisateurs
 Modifier un Utilisateur par Email
 
     Méthode : PUT
-    URL : http://localhost:5000/api/utilisateurs/modifier/:email
+    URL : http://localhost:5000/api/utils/modifier/:email
 
         Remplace ":email" par l'email de l'utilisateur à modifier.
     Headers :
@@ -101,7 +101,7 @@ Modifier un Utilisateur par Email
 Connecter un Utilisateur
 
     Méthode : POST
-    URL : http://localhost:5000/api/utilisateurs/connecter
+    URL : http://localhost:5000/api/auth/connexion
     Headers :
         Content-Type: application/json
     Body (raw, JSON) :
@@ -120,17 +120,29 @@ Connecter un Utilisateur
         {
           "message": "Connexion réussie",
           "date": {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-            "expiresIn": "12h",
-            "expirationTime": "2023-07-23T12:00:00.000Z"
-          }
+              "token": "",
+              "expiresIn": "12h",
+              "expirationTime": "2024-08-07T01:04:44.881Z"
+          },
+          "utilisateur": {
+            "_id": "",
+            "nom": "",
+            "prenom": "",
+            "email": "",
+            "role": "",
+            "sexe": "",
+            "mot_de_passe": '(encrypted)'
+            "id_famille": "",
+            "__v": 0
+          },
+          "fam_owner": true
         }
 
 
 Recuperer le profil d'un 'utilisateur
 
     Méthode : GET
-    URL : http://localhost:5000/api/utilisateurs/profile
+    URL : http://localhost:5000/api/utils/profile
     Headers :
         Content-Type: application/json
         Authorization: Bearer [token]
@@ -154,7 +166,7 @@ Recuperer le profil d'un 'utilisateur
 Ajouter un Membre
 
     Méthode : POST
-    URL : http://localhost:5000/api/membres/ajouter
+    URL : http://localhost:5000/api/admin/member/ajouter
     Headers :
         Content-Type: application/json
         Authorization: Bearer [token]
@@ -181,7 +193,7 @@ Ajouter un Membre
 
 Afficher Tous les Membres pour un Utilisateur
 
-    URL : http://localhost:5000/api/membres/tous
+    URL : http://localhost:5000/api/user/member/tous
     Méthode : GET
         Sans filtre : /api/membres/tous
         Filtrer par sexe : /api/membres/tous?sexe=Masculin
@@ -248,7 +260,7 @@ Afficher un Membre par ID
 Modifier un Membre par ID
 
     Méthode : PUT
-    URL : http://localhost:5000/api/membres/modifier/:id
+    URL : http://localhost:5000/api/admin/member/modifier/:id
 
         Remplace ":id" par ID du membre à modifier.
     Headers :
@@ -274,7 +286,7 @@ Modifier un Membre par ID
 Récupérer les Membres par Sexe
 
     Méthode : GET
-    URL : http://localhost:5000/api/membres/sexe/:sexe
+    URL : http://localhost:5000/api/utils/recuperer/:sexe
         Remplace :sexe par "Homme" ou "Femme".
     Réponse attendue :
 
@@ -295,7 +307,7 @@ Récupérer les Membres par Sexe
 
 Obtenir les informations concernant les rôles et permission
   Méthode : GET
-  URL : http://localhost:5000/api/UserRoles/All-Permision
+  URL : http://localhost:5000/api/utils/All-Permision
   (pas de body nécessaire)
 
   Réponse:
