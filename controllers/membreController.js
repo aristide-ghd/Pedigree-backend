@@ -2,25 +2,59 @@ const Membre = require('../models/membre');
 const {Lien} = require('../models/lien');
 const Family = require('../models/family.js');
 const User = require('../models/user/user');
+const { date } = require('yup');
 
 
 const ajouterMembre = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
     let body = req.body;
-    const UserStatus  = body.fam_owner;
     body.id_user = idUtilisateur;
-    const nouveauMembre = new Membre(body);
-    const ttt = await nouveauMembre.save();
-    const datalien = {
-      id_membre: ttt._id,
-      id_user: idUtilisateur,
-      type_de_lien: req.body.type_de_lien
-    };
-    const nouveauLien = new Lien(datalien);
-    await nouveauLien.save();
-    res.status(201).json({Message: "Membre enregistré avec succès"});
-    console.log(nouveauLien);
+    let { nom, prenom, date_de_naissance, sexe, groupe_sanguin, electrophorese } = body;
+    nom = nom.toUpperCase();
+    prenom = prenom.toUpperCase();
+    groupe_sanguin = groupe_sanguin.toUpperCase();
+    electrophorese = electrophorese.toUpperCase();
+    const check =  await Membre.findOne({ nom, prenom, date_de_naissance, sexe, groupe_sanguin, electrophorese });
+    if (check) {
+      return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
+    } else {
+      const _body = {
+        nom: nom,
+        prenom: prenom,
+        sexe: sexe,
+        date_de_naissance: date_de_naissance,
+        groupe_sanguin: groupe_sanguin,
+        electrophorese: electrophorese,
+      };
+      if ('statut_matrimonial' in body)
+          Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
+      if ('conjoint' in body)
+          Object.assign(_body, { conjoint: body.conjoint});
+      if ('id_pere' in body)
+          Object.assign(_body, { id_pere: body.id_pere });
+      if ('id_mere' in body)
+          Object.assign(_body, { id_mere: body.id_mere });
+      if ('profession' in body)
+          Object.assign(_body, { profession: body.profession });
+      if ('religion' in body)
+          Object.assign(_body, { religion: body.religion });
+      if ('signe_du_fa' in body)
+          Object.assign(_body, { signe_du_fa: body.signe_du_fa });
+      if ('id_user' in body)
+          Object.assign(_body, { id_user: body.id_user });
+      const nouveauMembre = new Membre(_body);
+      const ttt = await nouveauMembre.save();
+      const datalien = {
+        id_membre: ttt._id,
+        id_user: idUtilisateur,
+        type_de_lien: req.body.type_de_lien
+      };
+      const nouveauLien = new Lien(datalien);
+      await nouveauLien.save();
+      res.status(201).json({Message: "Membre enregistré avec succès"});
+      console.log(nouveauLien);
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -29,9 +63,43 @@ const ajouterMembre = async (req, res) => {
 const add_admin_as_member = async (req, res) => {
   try {
     let body = req.body;
-    const nouveauMembre = new Membre(body);
-    await nouveauMembre.save();// add the family owner himself as a member of the family
-    res.status(201).json({Message: "Vous avez été ajouter comme membre avec succès"});
+    let { nom, prenom, date_de_naissance, groupe_sanguin, electrophorese } = body;
+    nom = nom.toUpperCase();
+    prenom = prenom.toUpperCase();
+    groupe_sanguin = groupe_sanguin.toUpperCase();
+    electrophorese = electrophorese.toUpperCase();
+    const check =  await Membre.findOne({ nom, prenom, date_de_naissance, groupe_sanguin, electrophorese });
+    if (check) {
+      return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
+    } else {
+      const _body = {
+        nom: nom,
+        prenom: prenom,
+        sexe: sexe,
+        date_de_naissance: date_de_naissance,
+        groupe_sanguin: groupe_sanguin,
+        electrophorese: electrophorese,
+      };
+      if ('statut_matrimonial' in body)
+          Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
+      if ('conjoint' in body)
+          Object.assign(_body, { conjoint: body.conjoint});
+      if ('id_pere' in body)
+          Object.assign(_body, { id_pere: body.id_pere });
+      if ('id_mere' in body)
+          Object.assign(_body, { id_mere: body.id_mere });
+      if ('profession' in body)
+          Object.assign(_body, { profession: body.profession });
+      if ('religion' in body)
+          Object.assign(_body, { religion: body.religion });
+      if ('signe_du_fa' in body)
+          Object.assign(_body, { signe_du_fa: body.signe_du_fa });
+      if ('id_user' in body)
+          Object.assign(_body, { id_user: body.id_user });
+      const nouveauMembre = new Membre(_body);
+      await nouveauMembre.save();// add the family owner himself as a member of the family
+      res.status(201).json({Message: "Vous avez été ajouter comme membre avec succès"});
+    }
 
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -43,7 +111,40 @@ const add_user_as_member = async (req, res) => {
     const idUtilisateur = req.user.identity._id;
     let body = req.body;
     body.id_user = idUtilisateur;
-    const nouveauMembre = new Membre(body);
+    let { nom, prenom, date_de_naissance, groupe_sanguin, electrophorese } = body;
+    nom = nom.toUpperCase();
+    prenom = prenom.toUpperCase();
+    groupe_sanguin = groupe_sanguin.toUpperCase();
+    electrophorese = electrophorese.toUpperCase();
+    const check =  await Membre.findOne({ nom, prenom, date_de_naissance, groupe_sanguin, electrophorese });
+    if (check) {
+      return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
+    } else {
+      const _body = {
+        nom: nom,
+        prenom: prenom,
+        sexe: sexe,
+        date_de_naissance: date_de_naissance,
+        groupe_sanguin: groupe_sanguin,
+        electrophorese: electrophorese,
+      };
+      if ('statut_matrimonial' in body)
+          Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
+      if ('conjoint' in body)
+          Object.assign(_body, { conjoint: body.conjoint});
+      if ('id_pere' in body)
+          Object.assign(_body, { id_pere: body.id_pere });
+      if ('id_mere' in body)
+          Object.assign(_body, { id_mere: body.id_mere });
+      if ('profession' in body)
+          Object.assign(_body, { profession: body.profession });
+      if ('religion' in body)
+          Object.assign(_body, { religion: body.religion });
+      if ('signe_du_fa' in body)
+          Object.assign(_body, { signe_du_fa: body.signe_du_fa });
+      if ('id_user' in body)
+          Object.assign(_body, { id_user: body.id_user });
+      const nouveauMembre = new Membre(_body);
       const ttt = await nouveauMembre.save();
       //Enregistement dans la table Lien
       const datalien = {
@@ -53,8 +154,9 @@ const add_user_as_member = async (req, res) => {
       };
       const nouveauLien = new Lien(datalien);
       await nouveauLien.save();
-      res.status(201).json({Message: " Vous avez été ajouter comme membre avec succès"});
+      res.status(201).json({Message: "Vous avez été ajouter comme membre avec succès"});
       console.log(nouveauLien);
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
