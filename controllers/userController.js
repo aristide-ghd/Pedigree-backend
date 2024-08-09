@@ -115,7 +115,7 @@ const connecterUtilisateur = async (req, res) => {
     else
         fam_owner = false;
     //console.log(return_token)
-    res.status(200).json({ message: "Connexion réussie", date:return_token, utilisateur, fam_owner});
+    res.status(200).json({ message: "Connexion réussie", data:return_token, utilisateur, fam_owner});
   }
   catch (err) {
     res.status(400).json({ message: "Veuillez-vous inscrire" });
