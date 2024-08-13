@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 //Definition des types de liens
-const TYPES_LIENS = ['Père', 'Mère', 'Beau-père', 'Belle-mère', 'Frère', 'Soeur', 'Beau-Frère', 'Belle-Soeur', 'Fils', 'Fille', 'Oncle', 'Tante', 'Cousin', 'Cousine', 'Grand-Père', 'Grand-Mère', 'Epouse', 'Epoux'];
+const TYPES_LIENS = ['Père', 'Mère', 'Beau-père', 'Belle-mère', 'Frère', 'Soeur', 'Beau-Frère', 'Belle-Soeur', 'Fils', 'Fille', 'Oncle', 'Tante', 'Cousin', 'Cousine', 'Grand-Père', 'Grand-Mère', 'Epouse', 'Epoux', 'Neveu', 'Nièce', 'Petit-fils', 'Petite-fille', 'Beau-fils', 'Belle-fille'];
 
 // Definition du schema mongoose pour les liens des membres de la famille
 const lienSchema = new mongoose.Schema({

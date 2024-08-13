@@ -10,7 +10,7 @@ const membreSchema = new mongoose.Schema({
   sexe: { type: String, enum: ['Masculin', 'Feminin'], required: true },
   date_de_naissance: { type: Date, required: true },
   statut_matrimonial: { type: String, enum: ['Marie(e)', 'Celibataire', 'Divorce(e)', 'Veuf(ve)'], required: false },
-  conjoint: { type: String, required: false },
+  id_conjoint: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   id_pere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   id_mere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   profession: { type: String, required: false },

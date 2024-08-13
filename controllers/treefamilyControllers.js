@@ -73,12 +73,12 @@ const generationTree = async (req, res) => {
             {
                 $lookup: {
                     from: 'membres',  // Nom de la collection où se trouvent les conjoints
-                    let: { conjoint: '$conjoint' },  // Variable locale pour l'identifiant du conjoint
+                    let: { idconjoint: '$id_conjoint' },  // Variable locale pour l'identifiant du conjoint
                     pipeline: [
                         {
                             $match: {
                                 $expr: {
-                                    $eq: ['$_id', '$$conjoint']  // Filtrer par l'identifiant du conjoint
+                                    $eq: ['$_id', '$$idconjoint']  // Filtrer par l'identifiant du conjoint
                                 }
                             }
                         }

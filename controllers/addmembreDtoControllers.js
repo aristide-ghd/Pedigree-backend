@@ -5,7 +5,7 @@ const addMembre = async (req, res) => {
     try {
         await addMembreSchema.validate(req.body);
         
-        const { nom, prenom, sexe, date_de_naissance, statut_matrimonial, conjoint, id_pere, id_mere, type_de_lien, profession, religion, groupe_sanguin, signe_du_fa, electrophorese, id_arbre } = req.body;
+        const { nom, prenom, sexe, date_de_naissance, statut_matrimonial, id_conjoint, id_pere, id_mere, type_de_lien, profession, religion, groupe_sanguin, signe_du_fa, electrophorese, id_arbre } = req.body;
         const id_user = req.user._id; // Assume que le middleware d'authentification ajoute l'utilisateur à req.user
 
         const nouveauMembre = new Membre({
@@ -14,7 +14,7 @@ const addMembre = async (req, res) => {
             sexe,
             date_de_naissance,
             statut_matrimonial, 
-            conjoint,
+            id_conjoint,
             id_pere: id_pere || null,
             id_mere: id_mere || null,
             type_de_lien,

@@ -30,8 +30,8 @@ const ajouterMembre = async (req, res) => {
       };
       if ('statut_matrimonial' in body)
           Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
-      if ('conjoint' in body)
-          Object.assign(_body, { conjoint: body.conjoint});
+      if ('id_conjoint' in body)
+          Object.assign(_body, { conjoint: body.id_conjoint});
       if ('id_pere' in body)
           Object.assign(_body, { id_pere: body.id_pere });
       if ('id_mere' in body)
@@ -85,8 +85,8 @@ const add_admin_as_member = async (req, res) => {
           Object.assign(_body, {sexe: body.sexe});
       if ('statut_matrimonial' in body)
           Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
-      if ('conjoint' in body)
-          Object.assign(_body, { conjoint: body.conjoint});
+      if ('id_conjoint' in body)
+          Object.assign(_body, { conjoint: body.id_conjoint});
       if ('id_pere' in body)
           Object.assign(_body, { id_pere: body.id_pere });
       if ('id_mere' in body)
@@ -133,8 +133,8 @@ const add_user_as_member = async (req, res) => {
         Object.assign(_body, {sexe: body.sexe});
       if ('statut_matrimonial' in body)
           Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
-      if ('conjoint' in body)
-          Object.assign(_body, { conjoint: body.conjoint});
+      if ('id_conjoint' in body)
+          Object.assign(_body, { conjoint: body.id_conjoint});
       if ('id_pere' in body)
           Object.assign(_body, { id_pere: body.id_pere });
       if ('id_mere' in body)
@@ -228,7 +228,7 @@ const details_member = async (req, res) => {
       sexe: membre.sexe,
       date_de_naissance: membre.date_de_naissance,
       statut_matrimonial: membre.statut_matrimonial,
-      conjoint: membre.conjoint,
+      id_conjoint: membre.id_conjoint,
       profession: membre.profession,
       religion: membre.religion,
       groupe_sanguin: membre.groupe_sanguin,
