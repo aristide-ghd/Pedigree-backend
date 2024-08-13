@@ -20,6 +20,8 @@ const generationTree = async (req, res) => {
                     id_user: new ObjectId(idUtilisateur)
                 }
             },
+
+
             {
                 $lookup: {
                     from: 'membres',// Nom de la collection où se trouvent les pères
@@ -42,6 +44,8 @@ const generationTree = async (req, res) => {
                     preserveNullAndEmptyArrays: true //Permet de conserver les membres sans père
                 } 
             },
+
+
             {
                 $lookup: {
                     from: 'membres',  // Nom de la collection où se trouvent les mères
@@ -64,6 +68,32 @@ const generationTree = async (req, res) => {
                     preserveNullAndEmptyArrays: true //Permet de conserver les membres sans mere
                 }
             },
+
+
+            {
+                $lookup: {
+                    from: 'membres',  // Nom de la collection où se trouvent les conjoints
+                    let: { conjoint: '$conjoint' },  // Variable locale pour l'identifiant du conjoint
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ['$_id', '$$conjoint']  // Filtrer par l'identifiant du conjoint
+                                }
+                            }
+                        }
+                    ],
+                    as: 'conjoint'  // Nom du champ qui contiendra les données du conjoint
+                }
+            },
+            {
+                $unwind:{
+                    path: '$conjoint',  // Décompresse le tableau pour obtenir un seul objet conjoint
+                    preserveNullAndEmptyArrays: true //Permet de conserver les membres sans conjoint
+                }
+            },
+
+
             {
                 $lookup: {   
                     from: 'users',  // Nom de la collection où se trouvent les utilisateurs
@@ -83,6 +113,8 @@ const generationTree = async (req, res) => {
             {
                 $unwind: '$user' // Décompresse le tableau pour obtenir un seul objet user
             },
+
+
             {
                 $lookup: {
                     from: 'liens',   // Nom de la collection où nous cherchons les relations
@@ -108,6 +140,8 @@ const generationTree = async (req, res) => {
                     preserveNullAndEmptyArrays: true // Permet de conserver les membres sans lien spécifique
                 }
             },
+
+            
             {
                 $project: {    // Choisir les champs à exclure dans le résultat final
                     id_pere: 0,
