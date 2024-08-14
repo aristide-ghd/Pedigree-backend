@@ -10,9 +10,9 @@ exports.addMembreDto =  object({
     sexe: string().oneOf(['Masculin', 'Feminin']).required('Le genre est requis'),
     date_de_naissance: date().required('La date de naissance est requise'),
     statut_matrimonial: string().oneOf(['Marie(e)', 'Celibataire', 'Divorce(e)', 'Veuf(ve)']),
-    conjoint: string(),
     //La fonction test vérifie que la valeur est soit null, soit un objectid valide en utilisant Types.ObjectId.isValid(value)
     id_pere: string().nullable(),
+    id_conjoint: string().nullable(),
     id_mere: string().nullable(),
     // .test('is-object-id', 'identifiant de la mère invalide', value => value === null || Types.ObjectId.isValid(value)),
     type_de_lien: string().oneOf(TYPES_LIENS).required('le type de lien est requis'),

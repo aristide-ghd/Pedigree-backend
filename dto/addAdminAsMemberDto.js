@@ -10,7 +10,7 @@ exports.addAdminAsMemberDto =  object({
     sexe: string().oneOf(['Masculin', 'Feminin']).required('Le genre est requis'),
     date_de_naissance: date().default(() => new Date()),
     statut_matrimonial: string().oneOf(['Marie(e)', 'Celibataire', 'Divorce(e)', 'Veuf(ve)']),
-    conjoint: string(),
+    id_conjoint: string().nullable(),
     //La fonction test vérifie que la valeur est soit null, soit un objectid valide en utilisant Types.ObjectId.isValid(value)
     id_pere: string().nullable(),
     id_mere: string().nullable(),
