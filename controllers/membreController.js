@@ -216,10 +216,12 @@ const getTousMembres = async (req, res) => {
 // Fonction pour afficher les détails d'un membre 
 const details_member = async (req, res) => {
  try {
+  //the id stored in 'req.params.id' is converted to a format readable by mongoDB and then use to find the member who's details we want to view, in the database
     const membre = await Membre.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, { _id: false });
     if(!membre) {
       return res.status(400).json({ message: "Membre non trouvé" });
     }
+    //fill the object with the information regarding the member in question
     const details = {
       nom: membre.nom,
       prenom: membre.prenom,
@@ -231,14 +233,17 @@ const details_member = async (req, res) => {
       groupe_sanguin: membre.groupe_sanguin,
       electrophorese: membre.electrophorese
     };
+    //store the id of the 'conjoint' in a variable, same for the father and mother
     const id_du_conjoint = membre.id_conjoint;
     const id_père = membre.id_pere;
     const id_mere = membre.id_mere;
+    // if the member does have a conjoint, add his information to the details of the member we are currentmy viewing
     if (id_du_conjoint != null) {
       const conjoint = await Membre.findOne({_id: id_du_conjoint});
       const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom };
       Object.assign(details, {conjoint: conjoint_info});
     }
+    // same process for the father and the mother
     if (id_père != null) {
       const père = await Membre.findOne({_id: id_père});
       const père_info = { nom: père.nom, prenom: père.prenom };
