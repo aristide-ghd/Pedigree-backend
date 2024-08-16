@@ -220,31 +220,36 @@ const details_member = async (req, res) => {
     if(!membre) {
       return res.status(400).json({ message: "Membre non trouvé" });
     }
-    const id_du_conjoint = membre.id_conjoint;
-    const id_père = membre.id_pere;
-    const id_mere = membre.id_mere;
-    const conjoint = await Membre.findOne({_id: id_du_conjoint});
-    const père = await Membre.findOne({_id: id_père});
-    const mère = await Membre.findOne({_id: id_mere});
-    const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom };
-    const père_info = { nom: père.nom, prenom: père.prenom };
-    const mère_info = { nom: mère.nom, prenom: mère.prenom };
     const details = {
       nom: membre.nom,
       prenom: membre.prenom,
       sexe: membre.sexe,
       date_de_naissance: membre.date_de_naissance,
       statut_matrimonial: membre.statut_matrimonial,
-      conjoint: conjoint_info,
-      père: père_info,
-      mère: mère_info,
       profession: membre.profession,
       religion: membre.religion,
       groupe_sanguin: membre.groupe_sanguin,
       electrophorese: membre.electrophorese
     };
+    const id_du_conjoint = membre.id_conjoint;
+    const id_père = membre.id_pere;
+    const id_mere = membre.id_mere;
+    if (id_du_conjoint != null) {
+      const conjoint = await Membre.findOne({_id: id_du_conjoint});
+      const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom };
+      Object.assign(details, {conjoint: conjoint_info});
+    }
+    if (id_père != null) {
+      const père = await Membre.findOne({_id: id_père});
+      const père_info = { nom: père.nom, prenom: père.prenom };
+      Object.assign(details, {père: père_info});
+    }
+    if (id_mere != null) {
+      const mère = await Membre.findOne({_id: id_mere});
+      const mère_info = { nom: mère.nom, prenom: mère.prenom };
+      Object.assign(details, {mère: mère_info});
+    }
     res.status(201).json({ message: "Membre trouvé avec succès", data: details});
-  
   } catch (err) {
     res.status(400).json({ message: "Erreur de lecture"});
   }
