@@ -2,6 +2,7 @@ const Membre = require('../models/membre');
 const {Lien} = require('../models/lien');
 const Family = require('../models/family.js');
 const User = require('../models/user/user');
+const mongoose = require('mongoose');
 const { date } = require('yup');
 
 
@@ -214,29 +215,37 @@ const getTousMembres = async (req, res) => {
 
 // Fonction pour afficher les détails d'un membre 
 const details_member = async (req, res) => {
-  try {
-    console.log(req.params.id);
-    console.log(req.body);
-    const membre = await Membre.findOne({_id:req.params.id},{_id: false });
+ try {
+    const membre = await Membre.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, { _id: false });
     if(!membre) {
       return res.status(400).json({ message: "Membre non trouvé" });
     }
-    //console.log(membre);
+    const id_du_conjoint = membre.id_conjoint;
+    const id_père = membre.id_pere;
+    const id_mere = membre.id_mere;
+    const conjoint = await Membre.findOne({_id: id_du_conjoint});
+    const père = await Membre.findOne({_id: id_père});
+    const mère = await Membre.findOne({_id: id_mere});
+    const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom };
+    const père_info = { nom: père.nom, prenom: père.prenom };
+    const mère_info = { nom: mère.nom, prenom: mère.prenom };
     const details = {
       nom: membre.nom,
       prenom: membre.prenom,
       sexe: membre.sexe,
       date_de_naissance: membre.date_de_naissance,
       statut_matrimonial: membre.statut_matrimonial,
-      id_conjoint: membre.id_conjoint,
+      conjoint: conjoint_info,
+      père: père_info,
+      mère: mère_info,
       profession: membre.profession,
       religion: membre.religion,
       groupe_sanguin: membre.groupe_sanguin,
       electrophorese: membre.electrophorese
     };
     res.status(201).json({ message: "Membre trouvé avec succès", data: details});
-  }
-  catch (err) {
+  
+  } catch (err) {
     res.status(400).json({ message: "Erreur de lecture"});
   }
 };
