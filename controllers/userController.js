@@ -142,6 +142,25 @@ const generateJwt= (identity) =>{
 };
 
 //Fonction pour obtenir les infos du profil de l'utilisateur connecté
+const getAdminInfo = async (req, res) => {
+  try {
+    const idUtilisateur = req.user.identity._id;
+    const user = await User.findById(idUtilisateur);
+    const nom_de_famille = user.nom;
+    const fam = await Family.findOne({family_name: nom_de_famille, _id: user.id_famille});
+    const idCreator = fam.id_creator;
+    const creator = await User.findById(idCreator);
+    if(!user) {
+      return res.status(400).json({ message: "Utilisateur non trouvé"});
+    }
+    res.status(200).json(creator);
+  }
+  catch (err)
+  {
+    res.status(400).json({ message: "Erreur lors de la recupération du profil"});
+  }
+}
+
 const getProfile = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
@@ -156,4 +175,4 @@ const getProfile = async (req, res) => {
     res.status(400).json({ message: "Erreur lors de la recupération du profil"});
   }
 }
-module.exports = { enregistrerUtilisateur, getTousUtilisateurs, modifierUtilisateurParEmail, connecterUtilisateur, getProfile };
+module.exports = { enregistrerUtilisateur, getTousUtilisateurs, modifierUtilisateurParEmail, connecterUtilisateur, getProfile, getAdminInfo };

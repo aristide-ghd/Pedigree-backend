@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { authMiddleware } = require('../middleware/authMiddleware');
 const { send_permission_log} =  require("../controllers/RoleController.js");
-const { getTousUtilisateurs, modifierUtilisateurParEmail, getProfile } = require('../controllers/userController');
+const { getTousUtilisateurs, modifierUtilisateurParEmail, getProfile, getAdminInfo } = require('../controllers/userController');
 const { get_family_list, } = require('../controllers/family_controller.js');
 const { getMembreParSexe } = require('../controllers/membreController');
 const {getTypesDeLien} = require('../controllers/lienController');
@@ -21,6 +21,8 @@ router.get('/profile', authMiddleware, getProfile);
 
 //Route pour modifier un utilisateur par email
 router.put('/modifier/:email', modifierUtilisateurParEmail);
+
+router.get('/infos', authMiddleware, getAdminInfo);
 
 //Route pour récuperer les types de lien
 router.get('/typesDeLien', getTypesDeLien);
