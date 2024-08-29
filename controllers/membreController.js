@@ -215,12 +215,13 @@ const getTousMembres = async (req, res) => {
 
 // Fonction pour afficher les détails d'un membre 
 const details_member = async (req, res) => {
- try {
+  try {
+  const idUtilisateur = req.user.identity._id;
   //the id stored in 'req.params.id' is converted to a format readable by mongoDB and then use to find the member who's details we want to view, in the database
-    const membre = await Membre.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, { _id: false });
-    if(!membre) {
-      return res.status(400).json({ message: "Membre non trouvé" });
-    }
+  const membre = await Membre.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) }, { _id: false });
+  if(!membre) {
+    return res.status(400).json({ message: "Membre non trouvé" });
+  }
     //fill the object with the information regarding the member in question
     const details = {
       nom: membre.nom,
@@ -240,19 +241,23 @@ const details_member = async (req, res) => {
     // if the member does have a conjoint, add his information to the details of the member we are currentmy viewing
     if (id_du_conjoint != null) {
       const conjoint = await Membre.findOne({_id: id_du_conjoint});
-      const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom };
+      const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom, id: conjoint._id };
       Object.assign(details, {conjoint: conjoint_info});
     }
     // same process for the father and the mother
     if (id_père != null) {
       const père = await Membre.findOne({_id: id_père});
-      const père_info = { nom: père.nom, prenom: père.prenom };
-      Object.assign(details, {père: père_info});
+      Object.assign(details, {père: père});
     }
     if (id_mere != null) {
       const mère = await Membre.findOne({_id: id_mere});
-      const mère_info = { nom: mère.nom, prenom: mère.prenom };
-      Object.assign(details, {mère: mère_info});
+      Object.assign(details, {mère: mère});
+    }
+    const UserID = membre.id_user;
+    const newUserId = UserID.toString();
+    if (idUtilisateur === newUserId) {
+      const signe = membre.signe_du_fa;
+      Object.assign(details, {signe_du_fa: signe});
     }
     res.status(201).json({ message: "Membre trouvé avec succès", data: details});
   } catch (err) {
@@ -264,12 +269,14 @@ const details_member = async (req, res) => {
 const modifierMembreParId = async (req, res) => {
   try {
     console.log(req.params.id);
-    console.log(req.body);
     const membreModifie = await Membre.updateOne({_id:req.params.id}, {$set:req.body});
-    console.log(membreModifie);
+    const lienModifier = await Lien.findOneAndUpdate({id_membre: req.params.id}, {type_de_lien: req.body.type_de_lien}, { new: true });
     if(!membreModifie) {
       return res.status(400).json({ message: "Membre non trouvé" });
     }
+    if(!lienModifier) {
+      return res.status(400).json({ message: "Lien non modifié" });
+    }      
     res.status(201).json({ message: "Membre modifié avec succès" });
   }
   catch (err) {

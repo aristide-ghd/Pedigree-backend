@@ -17,7 +17,7 @@ exports.addAdminAsMemberDto =  object({
     // .test('is-object-id', 'identifiant de la mère invalide', value => value === null || Types.ObjectId.isValid(value)),
     type_de_lien: string().oneOf(TYPES_LIENS).nullable(),
     profession: string(),
-    religion: string().oneOf(['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme']),
+    religion: string().oneOf(['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme', 'Vodouisme', 'Autres']),
     groupe_sanguin: string(),
     signe_du_fa: string(),
     electrophorese: string(),

@@ -17,7 +17,7 @@ exports.addMembreDto =  object({
     // .test('is-object-id', 'identifiant de la mère invalide', value => value === null || Types.ObjectId.isValid(value)),
     type_de_lien: string().oneOf(TYPES_LIENS).required('le type de lien est requis'),
     profession: string(),
-    religion: string().oneOf(['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme']),
+    religion: string().oneOf(['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Vodouisme', 'Autres', 'Judaisme']),
     groupe_sanguin: string().required('Le groupe sanguin est requis'),
     signe_du_fa: string(),
     electrophorese: string().required('Votre électrophorese est requis'),

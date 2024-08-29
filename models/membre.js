@@ -14,7 +14,7 @@ const membreSchema = new mongoose.Schema({
   id_pere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   id_mere: { type: mongoose.Schema.Types.ObjectId, ref: 'Membre', default: null },
   profession: { type: String, required: false },
-  religion: { type: String, enum: ['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme'], required: false },
+  religion: { type: String, enum: ['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Judaisme', 'Vodouisme', 'Autres'], required: false },
   groupe_sanguin: { type: String, required: true },
   signe_du_fa: { type: String, required: false },
   electrophorese: { type: String, required: true },
