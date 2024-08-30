@@ -9,6 +9,8 @@ const { date } = require('yup');
 const ajouterMembre = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
+    const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    console.log(utilisateur);
     let body = req.body;
     body.id_user = idUtilisateur;
     let { nom, prenom, date_de_naissance, sexe, groupe_sanguin, electrophorese } = body;
@@ -27,7 +29,8 @@ const ajouterMembre = async (req, res) => {
         date_de_naissance: date_de_naissance,
         groupe_sanguin: groupe_sanguin,
         electrophorese: electrophorese,
-        id_user: body.id_user
+        id_user: body.id_user,
+        id_famille: utilisateur.id_famille
       };
       if ('statut_matrimonial' in body)
           Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
@@ -99,7 +102,8 @@ const add_admin_as_member = async (req, res) => {
       if ('signe_du_fa' in body)
           Object.assign(_body, { signe_du_fa: body.signe_du_fa });
       const nouveauMembre = new Membre(_body);
-      await nouveauMembre.save();// add the family owner himself as a member of the family
+      const safe = await nouveauMembre.save();// add the family owner himself as  member of the family
+      await User.findOneAndUpdate({_id: new mongoose.Types.ObjectId(idUtilisateur)}, {id_membre: safe._id}, { new: true });
       res.status(201).json({Message: "Vous avez été ajouter comme membre avec succès"});
     }
 
@@ -113,12 +117,11 @@ const add_user_as_member = async (req, res) => {
     const idUtilisateur = req.user.identity._id;
     let body = req.body;
     body.id_user = idUtilisateur;
-    let { nom, prenom, date_de_naissance, groupe_sanguin, electrophorese } = body;
+    let { nom, date_de_naissance, groupe_sanguin, electrophorese, sexe } = body;
     nom = nom.toUpperCase();
-    prenom = prenom.toUpperCase();
     groupe_sanguin = groupe_sanguin.toUpperCase();
     electrophorese = electrophorese.toUpperCase();
-    const check =  await Membre.findOne({ nom, prenom, date_de_naissance, groupe_sanguin, electrophorese });
+    const check =  await Membre.findOne({ nom, date_de_naissance, groupe_sanguin, electrophorese, sexe});
     if (check) {
       return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
     } else {
@@ -128,10 +131,9 @@ const add_user_as_member = async (req, res) => {
         date_de_naissance: date_de_naissance,
         groupe_sanguin: groupe_sanguin,
         electrophorese: electrophorese,
+        sexe: sexe,
         id_user: body.id_user
       };
-      if ('sexe' in body)
-        Object.assign(_body, {sexe: body.sexe});
       if ('statut_matrimonial' in body)
           Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
       if ('id_conjoint' in body)
@@ -148,6 +150,7 @@ const add_user_as_member = async (req, res) => {
           Object.assign(_body, { signe_du_fa: body.signe_du_fa });
       const nouveauMembre = new Membre(_body);
       const ttt = await nouveauMembre.save();
+      await User.findOneAndUpdate({_id: new mongoose.Types.ObjectId(idUtilisateur)}, {id_membre: ttt._id}, { new: true });
       //Enregistement dans la table Lien
       const datalien = {
         id_membre: ttt._id,
@@ -166,9 +169,10 @@ const add_user_as_member = async (req, res) => {
 
 //Fonction pour obtenir la list des membres de famille de l'utilisateur connecté
 const list_family_members = async (req, res) => {
-    const nom_de_famille = req.user.identity.nom;
+    const identity = req.user.identity._id;
+    const UserInfo = await User.findOne({ _id: new mongoose.Types.ObjectId(identity) }, { _id: false });
     try {
-      const members = await Membre.find({nom: nom_de_famille});
+      const members = await Membre.find({id_famille: UserInfo.id_famille});
       res.status(201).json(members);
     } catch(error) {
       res.status(400).json({Message: 'Erreur au niveau de l\'obtention de la list des membres'});
@@ -190,7 +194,6 @@ const getTousMembres = async (req, res) => {
     {
       filtre.sexe = sexe;
     }
-
     // Vérifie si un type de lien a été fourni dans les paramètres de la requête.
     if(type_de_lien)
     {
@@ -254,8 +257,16 @@ const details_member = async (req, res) => {
       Object.assign(details, {mère: mère});
     }
     const UserID = membre.id_user;
-    const newUserId = UserID.toString();
-    if (idUtilisateur === newUserId) {
+    const identité = await User.findOne({_id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+
+    // const user_name = identité.nom.toUpperCase();
+    // const member_name = membre.nom.toUpperCase();          /*just for test purpose */
+    // const user_lastname = identité.prenom.toUpperCase();
+    // const  member_lastname = membre.prenom.toUpperCase();
+
+    const member_date = membre.date_de_naissance.toDateString();
+    const user_date = identité.date_de_naissance.toDateString();
+    if (identité.nom === membre.nom && identité.prenom === membre.prenom  && user_date === member_date) {
       const signe = membre.signe_du_fa;
       Object.assign(details, {signe_du_fa: signe});
     }
@@ -284,6 +295,54 @@ const modifierMembreParId = async (req, res) => {
   }
 };
 
+const modify_profile_user = async (req, res) => {
+  try {
+    const idUtilisateur = req.user.identity._id;
+    const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    const membreModifie = await Membre.updateOne({_id: utilisateur.id_membre}, {$set:req.body});
+    const lienModifier = await Lien.findOneAndUpdate({id_membre: utilisateur.id_membre}, {type_de_lien: req.body.type_de_lien}, { new: true });
+
+    if(!membreModifie) {
+      return res.status(400).json({ message: "Membre non trouvé" });
+    }
+    if(!lienModifier) {
+      return res.status(400).json({ message: "Lien non modifié" });
+    }      
+    res.status(201).json({ message: "Informations modifiées avec succès" });
+  } catch (err) {
+    res.status(400).json({ message: "Erreur lors de modification"});
+  }
+}
+
+const modify_profile_admin = async (req, res) => {
+  try {
+    const idUtilisateur = req.user.identity._id;
+    const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    const membreModifie = await Membre.updateOne({_id: utilisateur.id_membre}, {$set:req.body});
+
+    if(!membreModifie) {
+      return res.status(400).json({ message: "Membre non trouvé" });
+    }     
+    res.status(201).json({ message: "Informations modifiées avec succès" });
+  } catch (err) {
+    res.status(400).json({ message: "Erreur lors de modification"});
+  }
+}
+
+//fonction to get user info
+const get_user_info = async (req, res) => {
+  try {
+    const idUtilisateur = req.user.identity._id;
+    console.log(idUtilisateur);
+    const userinfo = await Membre.findOne({ id_user: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    if(!userinfo) {
+      return res.status(400).json({ message: "Informations non trouvé"});
+    }
+    res.status(200).json({userinfo});
+  } catch (err) {
+    res.status(400).json({ message: "Erreur lors de la recupération du profil"});
+  }
+}
 
 // Fonction pour récupérer les membres par sexe
 const getMembreParSexe = async (req, res) => {
@@ -315,4 +374,4 @@ const getMembreParSexe = async (req, res) => {
 //   }
 // };
 
-module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, list_family_members, getTousMembres, modifierMembreParId, getMembreParSexe, details_member };
+module.exports = { ajouterMembre, add_admin_as_member, add_user_as_member, list_family_members, getTousMembres, modifierMembreParId, getMembreParSexe, modify_profile_user, modify_profile_admin, details_member, get_user_info };

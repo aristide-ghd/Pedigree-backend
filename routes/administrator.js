@@ -5,9 +5,11 @@ const { authMiddleware } = require('../middleware/authMiddleware');
 const { yupValidator } = require('../middleware/yup.js');
 const {addMembreDto} = require('../dto/addmembreDto.js');
 const {addAdminAsMemberDto} = require('../dto/addAdminAsMemberDto.js');
-const { ajouterMembre, add_admin_as_member, modifierMembreParId, details_member } = require('../controllers/membreController.js');
+const { ajouterMembre, add_admin_as_member, modifierMembreParId, details_member, modify_profile_admin } = require('../controllers/membreController.js');
 
 router.put('/modifier/:id', authMiddleware, checkPermission('ADMIN'), modifierMembreParId);// modifier membre
+
+router.put('/modify-profile-admin', authMiddleware, checkPermission('ADMIN'), modify_profile_admin); //modifier un profile admin
 
 router.post('/ajouter', authMiddleware, checkPermission('ADMIN'), yupValidator(addMembreDto), ajouterMembre);// ajouter membre
 

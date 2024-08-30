@@ -10,6 +10,7 @@ const enregistrerUtilisateur = async (req, res) => {
   let fam_owner = false;
   const data = req.body;
   let nv_nom = data.nom.toUpperCase();
+  let nv_prenom = data.prenom.toUpperCase();
   try {
     //Debut cryptage du mot de passe
     const password = await bcrypt.hash( req.body.mot_de_passe, 10);
@@ -19,11 +20,12 @@ const enregistrerUtilisateur = async (req, res) => {
       fam_owner = true;// set the owner tag to 'true'
         const user_data = { // fill the field of the table 'user' with the frotntend info
           nom: nv_nom,
-          prenom: data.prenom,
+          prenom: nv_prenom,
           email: data.email,
           role: Roles[0].role.id,
           sexe: data.sexe,
           mot_de_passe: data.mot_de_passe,
+          date_de_naissance: data.date_de_naissance,
           id_famille : data.newFamille._id,
         };
         const new_user = new User(user_data);
@@ -41,10 +43,11 @@ const enregistrerUtilisateur = async (req, res) => {
     } else {
         const user_data = {
         nom: nv_nom,
-        prenom: data.prenom,
+        prenom: nv_prenom,
         email: data.email,
         role: Roles[1].role.id,
         sexe: data.sexe,
+        date_de_naissance: data.date_de_naissance,
         mot_de_passe: data.mot_de_passe,
         id_famille : data.idFamille
       };
@@ -154,9 +157,7 @@ const getAdminInfo = async (req, res) => {
       return res.status(400).json({ message: "Utilisateur non trouvé"});
     }
     res.status(200).json(creator);
-  }
-  catch (err)
-  {
+  } catch (err) {
     res.status(400).json({ message: "Erreur lors de la recupération du profil"});
   }
 }
