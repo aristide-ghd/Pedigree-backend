@@ -66,6 +66,8 @@ const ajouterMembre = async (req, res) => {
 const add_admin_as_member = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
+    const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    //console.log(utilisateur);
     let body = req.body;
     body.id_user = idUtilisateur;
     let { nom, prenom, date_de_naissance, groupe_sanguin, electrophorese } = body;
@@ -74,7 +76,9 @@ const add_admin_as_member = async (req, res) => {
     groupe_sanguin = groupe_sanguin.toUpperCase();
     electrophorese = electrophorese.toUpperCase();
     const check =  await Membre.findOne({ nom, prenom, date_de_naissance, groupe_sanguin, electrophorese });
+    //console.log(check);
     if (check) {
+      const test = await User.findOneAndUpdate({_id: new mongoose.Types.ObjectId(idUtilisateur)}, {id_membre: check._id}, { new: true });
       return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
     } else {
       const _body = {
@@ -83,7 +87,8 @@ const add_admin_as_member = async (req, res) => {
         date_de_naissance: date_de_naissance,
         groupe_sanguin: groupe_sanguin,
         electrophorese: electrophorese,
-        id_user: body.id_user
+        id_user: body.id_user,
+        id_famille: utilisateur.id_famille
       };
       if ('sexe' in body)
           Object.assign(_body, {sexe: body.sexe});
@@ -115,14 +120,20 @@ const add_admin_as_member = async (req, res) => {
 const add_user_as_member = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
+    //console.log(idUtilisateur);
+    const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    // console.log(utilisateur);
     let body = req.body;
     body.id_user = idUtilisateur;
-    let { nom, date_de_naissance, groupe_sanguin, electrophorese, sexe } = body;
+    let { nom, date_de_naissance, prenom, groupe_sanguin, electrophorese, sexe } = body;
     nom = nom.toUpperCase();
+    prenom = prenom.toUpperCase();
     groupe_sanguin = groupe_sanguin.toUpperCase();
     electrophorese = electrophorese.toUpperCase();
-    const check =  await Membre.findOne({ nom, date_de_naissance, groupe_sanguin, electrophorese, sexe});
+    const check =  await Membre.findOne({ nom, prenom, date_de_naissance, groupe_sanguin, electrophorese, sexe});
     if (check) {
+      console.log(check);
+      const testing = await User.findOneAndUpdate({_id: new mongoose.Types.ObjectId(idUtilisateur)}, {id_membre: check._id}, { new: true });
       return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
     } else {
       const _body = {
@@ -132,7 +143,8 @@ const add_user_as_member = async (req, res) => {
         groupe_sanguin: groupe_sanguin,
         electrophorese: electrophorese,
         sexe: sexe,
-        id_user: body.id_user
+        id_user: body.id_user,
+        id_famille: utilisateur.id_famille
       };
       if ('statut_matrimonial' in body)
           Object.assign(_body, { statut_matrimonial: body.statut_matrimonial });
@@ -299,6 +311,7 @@ const modify_profile_user = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
     const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    console.log(utilisateur);
     const membreModifie = await Membre.updateOne({_id: utilisateur.id_membre}, {$set:req.body});
     const lienModifier = await Lien.findOneAndUpdate({id_membre: utilisateur.id_membre}, {type_de_lien: req.body.type_de_lien}, { new: true });
 
@@ -334,7 +347,8 @@ const get_user_info = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
     console.log(idUtilisateur);
-    const userinfo = await Membre.findOne({ id_user: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+    const userinfo = await Membre.findOne({ _id: new mongoose.Types.ObjectId(utilisateur.id_membre) }, { _id: false });
     if(!userinfo) {
       return res.status(400).json({ message: "Informations non trouvé"});
     }

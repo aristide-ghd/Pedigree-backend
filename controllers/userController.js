@@ -37,8 +37,9 @@ const enregistrerUtilisateur = async (req, res) => {
           village: data.newFamille.village,
           id_creator: newUser._id
         };
-        const nvFamille = new Family(fam_info);
-        await nvFamille.save();// save the family created in the database
+        const fam_modifié = await Family.updateOne({family_name :fam_info.family_name, ethnicity: fam_info.ethnicity, country: fam_info.country, village: fam_info.village }, {$set:fam_info});
+        // const nvFamille = new Family(fam_info);
+        // await nvFamille.save();// save the family created in the database
         res.status(201).json({Message: "Utilisateur enregistré avec succès", fam_owner, new_user});
     } else {
         const user_data = {
