@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   mot_de_passe: { type: String, required: true },
   id_famille : {type: String, required: false},
   id_membre: {type: String, required: false}
-});
+}); 
 
 //Hacher le mot de passe avant sauvegarde de l'utilisateur
 // userSchema.pre('save', async function(next) {

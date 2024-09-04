@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const { TYPES_LIENS } = require('./lien');
 const family = require('./family');
-
+ 
 // Definition du schema mongoose pour les membres de la famille
 const membreSchema = new mongoose.Schema({
   nom: { type: String, required: true },
