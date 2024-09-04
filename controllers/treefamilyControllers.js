@@ -16,6 +16,7 @@ const generationTree = async (req, res) => {
         const object_user = await User.findOne({_id: new ObjectId(idUtilisateur)}, {_id: false });
         const idfamille = object_user.id_famille;
         console.log(idfamille);
+        console.log(object_user);
 
         // Réaliser l'agrégation pour récupérer les membres avec leurs pères, mères et utilisateurs
         const aggregate = await Membre.aggregate([
@@ -127,7 +128,6 @@ const generationTree = async (req, res) => {
                                 $expr: {
                                     $and: [
                                         { $eq: ['$id_membre', '$$idmembre'] },  // Correspondance avec l'ID du membre
-                                        { $eq: ['$id_user', new ObjectId(idUtilisateur)] } // Correspondance avec l'ID de l'utilisateur
                                     ]
                                 }
                             }
