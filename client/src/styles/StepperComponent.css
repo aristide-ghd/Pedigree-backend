@@ -1,0 +1,58 @@
+.stepper-container {
+  background: rgba(255, 255, 255, 0.9); /* Fond légèrement transparent pour le conteneur */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+  max-width: 800px;
+  margin: auto;
+}
+
+.nav-tabs .nav-link {
+  color: #1f78b4; /* Couleur des liens dans les onglets */
+}
+
+.nav-tabs .nav-link.active {
+  color: #fff;
+  background-color: #1f78b4;
+  border-radius: 0.25rem;
+}
+
+.progress-bar {
+  background-color: #1f78b4; /* Couleur de la barre de progression */
+}
+
+.btn-primary {
+  background-color: #1f78b4; /* Couleur des boutons primaires */
+  border-color: #1f78b4;
+}
+
+.btn-secondary {
+  background-color: #a2c2e0; /* Couleur des boutons secondaires */
+  border-color: #a2c2e0;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #155a8a; /* Couleur des boutons primaires au survol et au focus */
+  border-color: #155a8a;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: #8bb1d1; /* Couleur des boutons secondaires au survol et au focus */
+  border-color: #8bb1d1;
+}
+
+h2, h4 {
+  color: #333; /* Couleur des titres */
+}
+
+.text-warning {
+  color: #e0a800; /* Couleur du texte d'avertissement */
+}
+
+.active-step {
+  font-weight: bold;
+  color: #4e73df; /* Couleur pour les étapes actives */
+}

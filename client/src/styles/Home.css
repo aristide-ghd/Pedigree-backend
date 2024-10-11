@@ -1,0 +1,107 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: row; /* Permet à la sidebar de rester à gauche */
+  min-height: 100vh; /* Assure que le conteneur prend toute la hauteur de la page */
+}
+
+.sidebar {
+  width: 250px; /* Taille de la barre latérale */
+  flex-shrink: 0; /* Empêche la barre latérale de rétrécir */
+}
+
+.content-wrapper {
+  flex: 1; /* Permet à la section de contenu de s'étendre pour occuper l'espace disponible */
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  flex-shrink: 0; /* Assure que la topbar reste en haut */
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.sticky-footer {
+  margin-top: auto; /* Place le footer en bas */
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.home-section {
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-section h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.home-section p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.home-buttons {
+  margin-top: 20px;
+}
+
+.home-button {
+  margin-right: 10px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.home-button-quit {
+  margin-top: 20px;
+  background-color: #dc3545; /* Couleur rouge pour un bouton de danger */
+  border-color: #dc3545;
+}
+
+.home-button-quit:hover {
+  background-color: #c82333; /* Couleur plus foncée au survol */
+  border-color: #bd2130;
+}
+
+.navbar-search {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-search .form-control {
+  margin-right: 0; /* Remove margin on the right to ensure tight alignment with the button */
+}
+
+.navbar-search .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Width and height should be equal to make the button square */
+  height: 40px; /* Same as width to keep the button square */
+  padding: 0; /* Remove default padding */
+  border-radius: 4px; /* Optional: to round the corners of the square button */
+  background-color: #007bff; /* Set the background color to blue */
+  border-color: #007bff; /* Set the border color to the same blue */
+  color: white; /* Set the icon color to white */
+}
+
+.navbar-search .btn .fa-search {
+  font-size: 16px; /* Adjust the size of the icon */
+}
+

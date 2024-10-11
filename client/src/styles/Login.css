@@ -1,0 +1,72 @@
+/* Styles de base pour la page de connexion */
+.bg-gradient-primary {
+  background: linear-gradient(180deg, #a2c2e0 10%, #1f78b4 100%);
+  color: #fff;
+  min-height: 100vh;
+  
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.btn-google {
+  background-color: #ea4335;
+  border-color: #ea4335;
+  color: #fff;
+}
+
+.btn-facebook {
+  background-color: #3b5998;
+  border-color: #3b5998;
+  color: #fff;
+}
+
+.form-control-user {
+  border-radius: 1rem;
+  box-shadow: none;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #4e73df;
+  border-color: #4e73df;
+}
+
+.custom-control-label {
+  margin-bottom: 0;
+}
+
+hr {
+  border-color: #e3e6f0;
+}
+
+.text-gray-900 {
+  color: #5a5c69 !important;
+}
+
+.text-center {
+  text-align: center !important;
+}

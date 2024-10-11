@@ -1,0 +1,90 @@
+/* Styles de base pour la page d'inscription */
+
+
+.container {
+    max-width: auto;
+    margin-top: 2rem;
+    
+  }
+  
+  .card {
+    border-radius: 1rem;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+
+  
+  .password-container {
+    position: relative;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  /* Styles de base pour tous les boutons */
+.btn {
+  border-radius: 2rem; /* Coins arrondis */
+  font-size: 0.75rem; /* Taille de la police uniforme */
+  padding: 0.75rem 1.25rem; /* Padding uniforme */
+  text-align: center; /* Alignement du texte au centre */
+}
+
+/* Styles pour les boutons Google et Facebook */
+.btn-google {
+  background-color: #ea4335;
+  border-color: #ea4335;
+  color: #fff;
+}
+
+.btn-facebook {
+  background-color: #3b5998;
+  border-color: #3b5998;
+  color: #fff;
+}
+
+/* Style pour le bouton primaire */
+.btn-primary {
+  background-color: #4e73df;
+  border-color: #4e73df;
+  color: #fff;
+}
+
+/* Assure que les icônes dans les boutons sont alignées correctement */
+.btn .fa-fw {
+  margin-right: 0.5rem; /* Espacement à droite de l'icône */
+}
+  
+  .form-control-user {
+    border-radius: 1rem;
+    box-shadow: none;
+  }
+  
+  .alert {
+    margin-bottom: 1rem;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .text-gray-900 {
+    color: #5a5c69 !important;
+  }
+  
+  .text-center {
+    text-align: center !important;
+  }

@@ -9,7 +9,7 @@ exports.addMembreDto =  object({
     prenom: string().required('Le prénom est requis'),
     sexe: string().oneOf(['Masculin', 'Feminin']).required('Le genre est requis'),
     date_de_naissance: date().required('La date de naissance est requise'),
-    statut_matrimonial: string().oneOf(['Marie(e)', 'Celibataire', 'Divorce(e)', 'Veuf(ve)']),
+    statut_matrimonial: string().oneOf(['Marie(e)', 'Celibataire', 'Divorce(e)', 'Veuf(ve)', 'Concubinage']),
     //La fonction test vérifie que la valeur est soit null, soit un objectid valide en utilisant Types.ObjectId.isValid(value)
     id_pere: string().nullable(),
     id_conjoint: string().nullable(),
@@ -17,7 +17,8 @@ exports.addMembreDto =  object({
     // .test('is-object-id', 'identifiant de la mère invalide', value => value === null || Types.ObjectId.isValid(value)),
     type_de_lien: string().oneOf(TYPES_LIENS).required('le type de lien est requis'),
     profession: string(),
-    religion: string().oneOf(['Christianisme', 'Islam', 'Hindouisme', 'Bouddhisme', 'Vodouisme', 'Autres', 'Judaisme']),
+    religion: string(),
+    religion_name: string().nullable(),
     groupe_sanguin: string().required('Le groupe sanguin est requis'),
     signe_du_fa: string(),
     electrophorese: string().required('Votre électrophorese est requis'),

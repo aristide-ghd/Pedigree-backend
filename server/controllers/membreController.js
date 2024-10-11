@@ -44,6 +44,8 @@ const ajouterMembre = async (req, res) => {
           Object.assign(_body, { profession: body.profession });
       if ('religion' in body)
           Object.assign(_body, { religion: body.religion });
+      if ('religion_name' in body)
+          Object.assign(_body, { religion_name: body.religion_name });
       if ('signe_du_fa' in body)
           Object.assign(_body, { signe_du_fa: body.signe_du_fa });
       const nouveauMembre = new Membre(_body);
@@ -104,6 +106,8 @@ const add_admin_as_member = async (req, res) => {
           Object.assign(_body, { profession: body.profession });
       if ('religion' in body)
           Object.assign(_body, { religion: body.religion });
+      if ('religion_name' in body)
+        Object.assign(_body, { religion_name: body.religion_name });
       if ('signe_du_fa' in body)
           Object.assign(_body, { signe_du_fa: body.signe_du_fa });
       const nouveauMembre = new Membre(_body);
@@ -158,6 +162,8 @@ const add_user_as_member = async (req, res) => {
           Object.assign(_body, { profession: body.profession });
       if ('religion' in body)
           Object.assign(_body, { religion: body.religion });
+      if ('religion_name' in body)
+          Object.assign(_body, { religion_name: body.religion_name });
       if ('signe_du_fa' in body)
           Object.assign(_body, { signe_du_fa: body.signe_du_fa });
       const nouveauMembre = new Membre(_body);
@@ -246,6 +252,7 @@ const details_member = async (req, res) => {
       statut_matrimonial: membre.statut_matrimonial,
       profession: membre.profession,
       religion: membre.religion,
+      religion_name: membre.religion_name,
       groupe_sanguin: membre.groupe_sanguin,
       electrophorese: membre.electrophorese
     };
@@ -299,8 +306,9 @@ const modifierMembreParId = async (req, res) => {
     }
     if(!lienModifier) {
       return res.status(400).json({ message: "Lien non modifié" });
-    }      
-    res.status(201).json({ message: "Membre modifié avec succès" });
+    }
+    const member_info = await Membre.findOne({_id: req.params.id});
+    res.status(201).json({ message: "Membre modifié avec succès", member_info});
   }
   catch (err) {
     res.status(400).json({ message: "Erreur de modification"});
@@ -352,7 +360,52 @@ const get_user_info = async (req, res) => {
     if(!userinfo) {
       return res.status(400).json({ message: "Informations non trouvé"});
     }
-    res.status(200).json({userinfo});
+    const details = {
+      nom: userinfo.nom,
+      prenom: userinfo.prenom,
+      sexe: userinfo.sexe,
+      date_de_naissance: userinfo.date_de_naissance,
+      statut_matrimonial: userinfo.statut_matrimonial,
+      profession: userinfo.profession,
+      religion: userinfo.religion,
+      religion_name : userinfo.religion_name,
+      groupe_sanguin: userinfo.groupe_sanguin,
+      electrophorese: userinfo.electrophorese
+    };
+    //store the id of the 'conjoint' in a variable, same for the father and mother
+    const id_du_conjoint = userinfo.id_conjoint;
+    const id_père = userinfo.id_pere;
+    const id_mere = userinfo.id_mere;
+    // if the member does have a conjoint, add his information to the details of the member we are currentmy viewing
+    if (id_du_conjoint != null) {
+      const conjoint = await Membre.findOne({_id: id_du_conjoint});
+      const conjoint_info = { nom: conjoint.nom, prenom: conjoint.prenom, id: conjoint._id };
+      Object.assign(details, {conjoint: conjoint_info});
+    }
+    // same process for the father and the mother
+    if (id_père != null) {
+      const père = await Membre.findOne({_id: id_père});
+      Object.assign(details, {père: père});
+    }
+    if (id_mere != null) {
+      const mère = await Membre.findOne({_id: id_mere});
+      Object.assign(details, {mère: mère});
+    }
+    const UserID = userinfo.id_user;
+    const identité = await User.findOne({_id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
+
+    // const user_name = identité.nom.toUpperCase();
+    // const member_name = membre.nom.toUpperCase();          /*just for test purpose */
+    // const user_lastname = identité.prenom.toUpperCase();
+    // const  member_lastname = membre.prenom.toUpperCase();
+
+    const member_date = userinfo.date_de_naissance.toDateString();
+    const user_date = identité.date_de_naissance.toDateString();
+    if (identité.nom === userinfo.nom && identité.prenom === userinfo.prenom  && user_date === member_date) {
+      const signe = userinfo.signe_du_fa;
+      Object.assign(details, {signe_du_fa: signe});
+    }
+    res.status(201).json({ message: "Membre trouvé avec succès", details});
   } catch (err) {
     res.status(400).json({ message: "Erreur lors de la recupération du profil"});
   }
