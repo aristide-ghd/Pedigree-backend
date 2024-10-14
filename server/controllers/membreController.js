@@ -10,7 +10,7 @@ const ajouterMembre = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
     const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
-    console.log(utilisateur);
+    // console.log(utilisateur);
     let body = req.body;
     body.id_user = idUtilisateur;
     let { nom, prenom, date_de_naissance, sexe, groupe_sanguin, electrophorese } = body;
@@ -58,7 +58,7 @@ const ajouterMembre = async (req, res) => {
       const nouveauLien = new Lien(datalien);
       await nouveauLien.save();
       res.status(201).json({Message: "Membre enregistré avec succès"});
-      console.log(nouveauLien);
+      // console.log(nouveauLien);
     }
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -136,7 +136,7 @@ const add_user_as_member = async (req, res) => {
     electrophorese = electrophorese.toUpperCase();
     const check =  await Membre.findOne({ nom, prenom, date_de_naissance, groupe_sanguin, electrophorese, sexe});
     if (check) {
-      console.log(check);
+      // console.log(check);
       const testing = await User.findOneAndUpdate({_id: new mongoose.Types.ObjectId(idUtilisateur)}, {id_membre: check._id}, { new: true });
       return res.status(403).json({Message: "Cette personne est déja membre de la famille"});
     } else {
@@ -178,7 +178,7 @@ const add_user_as_member = async (req, res) => {
       const nouveauLien = new Lien(datalien);
       await nouveauLien.save();
       res.status(201).json({Message: "Vous avez été ajouter comme membre avec succès"});
-      console.log(nouveauLien);
+      // console.log(nouveauLien);
     }
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -298,7 +298,7 @@ const details_member = async (req, res) => {
 // Fonction pour modifier un membre d'un utilisateur
 const modifierMembreParId = async (req, res) => {
   try {
-    console.log(req.params.id);
+    // console.log(req.params.id);
     const membreModifie = await Membre.updateOne({_id:req.params.id}, {$set:req.body});
     const lienModifier = await Lien.findOneAndUpdate({id_membre: req.params.id}, {type_de_lien: req.body.type_de_lien}, { new: true });
     if(!membreModifie) {
@@ -319,7 +319,7 @@ const modify_profile_user = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
     const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
-    console.log(utilisateur);
+    // console.log(utilisateur);
     const membreModifie = await Membre.updateOne({_id: utilisateur.id_membre}, {$set:req.body});
     const lienModifier = await Lien.findOneAndUpdate({id_membre: utilisateur.id_membre}, {type_de_lien: req.body.type_de_lien}, { new: true });
 
@@ -354,7 +354,7 @@ const modify_profile_admin = async (req, res) => {
 const get_user_info = async (req, res) => {
   try {
     const idUtilisateur = req.user.identity._id;
-    console.log(idUtilisateur);
+    // console.log(idUtilisateur);
     const utilisateur = await User.findOne({ _id: new mongoose.Types.ObjectId(idUtilisateur) }, { _id: false });
     const userinfo = await Membre.findOne({ _id: new mongoose.Types.ObjectId(utilisateur.id_membre) }, { _id: false });
     if(!userinfo) {

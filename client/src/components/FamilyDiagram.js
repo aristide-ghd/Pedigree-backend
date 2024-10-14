@@ -438,7 +438,7 @@ const GoJSDiagram = () => {
         const father = data.pere_id;
         if (mother !== undefined && father !== undefined) {
           const link = findMarriage(diagram, mother, father);
-          console.log("unknown marriage: " + mother + " & " + father);
+          //console.log("unknown marriage: " + mother + " & " + father);
           if (link === null) {
             const ldata1 = { from: father, to: key};
             diagram.model.addLinkData(ldata1);

@@ -12,11 +12,11 @@ const User = require('../models/user/user');
 const generationTree = async (req, res) => {
     try {
         const idUtilisateur = req.user.identity._id;
-        console.log(idUtilisateur);
+        // console.log(idUtilisateur);
         const object_user = await User.findOne({_id: new ObjectId(idUtilisateur)}, {_id: false });
         const idfamille = object_user.id_famille;
-        console.log(idfamille);
-        console.log(object_user);
+        // console.log(idfamille);
+        // console.log(object_user);
 
         // Réaliser l'agrégation pour récupérer les membres avec leurs pères, mères et utilisateurs
         const aggregate = await Membre.aggregate([

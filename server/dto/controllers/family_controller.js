@@ -12,7 +12,7 @@ const   create_family = async (req, res) => {
     country = country.toUpperCase();
     try {
         const newFamily = await Family.findOne({family_name, ethnicity, country, village});
-        console.log(newFamily);
+        // console.log(newFamily);
         if (newFamily) { // if the family exist
             fam_exist = true; // set the key 'exist' to true
             const idFamille = newFamily._id; // get the id of the family

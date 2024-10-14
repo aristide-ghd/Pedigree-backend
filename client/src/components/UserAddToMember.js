@@ -48,7 +48,7 @@ const UserMember = () => {
                 const response = await axiosInstance.get('/utils/typesDeLien');
                 setLinkTypes(response.data);
             } catch (error) {
-                console.log('Erreur lors de la récupération des types de liens:', error);
+                // console.log('Erreur lors de la récupération des types de liens:', error);
             }
         };
         fetchLinkTypes();
@@ -116,7 +116,7 @@ const UserMember = () => {
                 }
             });
     
-            console.log('Réponse du serveur:', response);
+            // console.log('Réponse du serveur:', response);
     
             setMessage('Ajout réussie! Votre profil a été modifier avec succès.');
             toast.success('Ajout réussi! Votre profil a été modifier avec succès.');
@@ -133,7 +133,7 @@ const UserMember = () => {
             }
             setMessage(errorMessage);
             toast.error(errorMessage);
-            console.log(error);
+            // console.log(error);
         } finally {
             setLoading(false);
         }
@@ -160,7 +160,7 @@ const UserMember = () => {
         setMetier('');
         setMessage('');
     };
-    console.log(moment(userData?.date_de_naissance).format('DD/MM/YYYY'));
+    // console.log(moment(userData?.date_de_naissance).format('DD/MM/YYYY'));
 
     return (
         <div className="register-member-container"> 

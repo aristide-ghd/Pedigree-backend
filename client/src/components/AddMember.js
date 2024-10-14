@@ -51,7 +51,7 @@ const AddMember = () => {
                 const response = await axiosInstance.get('/utils/typesDeLien');
                 setLinkTypes(response.data);
             } catch (error) {
-                console.log('Erreur lors de la récupération des types de liens:', error);
+                //console.log('Erreur lors de la récupération des types de liens:', error);
             }
         };
         fetchLinkTypes();
@@ -100,7 +100,7 @@ const AddMember = () => {
             });
     
             // Handle response if needed
-            console.log('Réponse du serveur:', response);
+            //console.log('Réponse du serveur:', response);
     
             setMessage('Ajout réussie! Membre ajouté avec succès.');
             toast.success('Ajout réussi! Membre ajouté avec succès.');
@@ -110,7 +110,7 @@ const AddMember = () => {
             const errorMessage = error.response?.data?.message || 'Une erreur est survenue';
             setMessage(errorMessage);
             toast.error(errorMessage);
-            console.log(error);
+            //console.log(error);
         } finally {
             setLoading(false);
         }

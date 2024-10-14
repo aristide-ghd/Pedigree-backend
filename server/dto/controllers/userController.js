@@ -79,10 +79,10 @@ const getTousUtilisateurs = async (req, res) => {
 // Fonction pour modifier un utilisateur Par Email
 const modifierUtilisateurParEmail = async (req, res) => {
   try {
-    console.log(req.params.email);
-    console.log(req.body);
+    // console.log(req.params.email);
+    // console.log(req.body);
     const utilisateurModifie = await User.updateOne({"email":req.params.email}, {$set:req.body});
-    console.log(utilisateurModifie);
+    // console.log(utilisateurModifie);
     if(!utilisateurModifie) {
       return res.status(400).json({ message: "Utilisateur non trouvé" });
     }
@@ -112,7 +112,7 @@ const connecterUtilisateur = async (req, res) => {
     }
 
     //Si les informations sont valides
-    console.log(utilisateur);
+    // console.log(utilisateur);
     const return_token = generateJwt(utilisateur);
     if (utilisateur.role === 'ADMIN')
         fam_owner = true;
@@ -141,7 +141,7 @@ const generateJwt= (identity) =>{
     };
   }
   catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 

@@ -31,7 +31,7 @@ const MemberDetail = () => {
         fetchData();
     }, []);
 
-    console.log(userData.role);
+   // console.log(userData.role);
     let isAdmin = false;  
     if (userData?.role === 'ADMIN') isAdmin = true;
     let isMember = false;

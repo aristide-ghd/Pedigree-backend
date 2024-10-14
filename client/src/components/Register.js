@@ -69,7 +69,7 @@ const Register = ({ onRegister, newFamille }) => {
     }
   
     // Soumission du formulaire
-    console.log(familyData.family_name);
+   // console.log(familyData.family_name);
     try {
       setIsSubmitting(true);
       const response = await axiosInstance.post('/auth/enregistrer', {
