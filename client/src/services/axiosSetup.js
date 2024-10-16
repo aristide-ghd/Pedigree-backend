@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Créez une instance d'axios
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.86.84:5000/api', // URL de base de votre API
+  baseURL: 'https://family-tree-backend-m8m1.onrender.com/api', // URL de base de votre API
   timeout: 5000, // Augmenter le délai d'attente pour les requêtes
   headers: {
     'Content-Type': 'application/json',
